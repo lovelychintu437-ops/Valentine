@@ -66,12 +66,12 @@ body{
   max-width:500px;
   margin:0 auto;
   overflow:hidden;
-  border-radius:20px;
 }
 
 .carousel-track{
   display:flex;
   transition:transform 0.5s ease;
+  opacity:0;
 }
 
 .carousel img{
@@ -81,11 +81,9 @@ body{
   flex-shrink:0;
   border-radius:18px;
   margin:0 5px;
-}
-
-/* Navigation for dragging - optional */
-.carousel:active .carousel-track{
-  cursor:grabbing;
+  transform: translateY(50px);
+  opacity:0;
+  transition:all 0.6s ease;
 }
 
 /* Floating hearts */
@@ -113,7 +111,7 @@ body{
   <!-- Carousel -->
   <div class="carousel">
     <div class="carousel-track" id="carouselTrack">
-      <!-- Add 30 photos here -->
+      <!-- 30 photos -->
       <img src="pic1.jpg">
       <img src="pic2.jpg">
       <img src="pic3.jpg">
@@ -168,16 +166,17 @@ const typingText = document.getElementById("typingText");
 const message = `Hey Ammaduu❤️
 
 On 22nd June 2022-
-
-the first time I saw you on your birthday, in that purple dress. That was the day I fell in love with you 💜
+The first time I saw you on your birthday, in that purple dress.
+That was the day I fell in love with you 💜
 
 Every moment with you makes me happy.
 
-Whether I'm sad or smiling, you're the one I want to share everything with you
+Whether I'm sad or happy, you're the one I want to share everything
 
 Through all 4 years of BTech and still, I loved you quietly🫣.
 
-But after you went to the abroad, I started missing you a lot, and even our calls and messages became less
+But after you went to the abroad, I started missing you a lot,
+and even our calls and messages became less
 
 On this Valentine's Day, you said yes to me💘
 
@@ -193,14 +192,28 @@ envelope.addEventListener("click", function(){
     if(i < message.length){
       typingText.innerHTML += message.charAt(i);
       i++;
-      setTimeout(typeWriter, 35); // typing speed
+      setTimeout(typeWriter, 35);
+    } else {
+      showPhotos();
     }
   }
   typeWriter();
-
-  // Start carousel auto-slide after typewriter finishes
-  setTimeout(startCarousel, message.length*35 + 500); 
 });
+
+// Show photos after typing completes
+function showPhotos(){
+  const track = document.getElementById("carouselTrack");
+  track.style.opacity = "1";
+
+  Array.from(track.children).forEach((img, idx) => {
+    setTimeout(() => {
+      img.style.opacity = "1";
+      img.style.transform = "translateY(0)";
+    }, idx * 150); // stagger each photo
+  });
+
+  startCarousel();
+}
 
 // ---------- Carousel ----------
 const track = document.getElementById("carouselTrack");
@@ -211,13 +224,12 @@ function startCarousel(){
     index++;
     if(index >= track.children.length) index = 0;
     track.style.transform = `translateX(-${index*100}%)`;
-  }, 2500); // 2.5 sec per photo
+  }, 2500);
 }
 
 // Optional: touch drag for mobile
 let startX = 0;
 let isDown = false;
-
 track.addEventListener('mousedown', e => { isDown = true; startX = e.pageX; });
 track.addEventListener('mouseup', e => { isDown=false; });
 track.addEventListener('mouseleave', e=>{isDown=false;});
