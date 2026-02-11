@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <title>Love You ❤️</title>
 <style>
-/* ---------------- BODY ---------------- */
 body{
   margin:0;
   min-height:100vh;
@@ -26,7 +25,7 @@ body{
   100%{background-position:0% 50%}
 }
 
-/* ---------------- ENVELOPE ---------------- */
+/* Envelope */
 #envelope{
   position:fixed;
   top:30px;
@@ -44,7 +43,7 @@ body{
   100%{transform:translateX(-50%) scale(1);}
 }
 
-/* ---------------- CONTENT ---------------- */
+/* Content */
 #content{
   display:none;
   max-width:1000px;
@@ -60,29 +59,27 @@ body{
   margin-bottom:40px;
 }
 
-/* ---------------- PHOTO SLIDE ---------------- */
+/* Photo container */
 #photoSlide{
-  position:relative;
-  width:240px; /* can adjust for screen size */
+  width:240px;
   max-width:90%;
   margin:0 auto;
   overflow:hidden;
-  height:426px; /* 9:16 ratio */
 }
 
 #photoSlide img{
-  position:absolute;
   width:100%;
-  height:100%;
+  aspect-ratio:9/16;
   object-fit:cover;
   border-radius:22px;
   box-shadow:0 15px 35px rgba(0,0,0,0.35);
+  margin-bottom:20px;
   opacity:0;
   transform:translateY(50px);
   transition: all 1s ease;
 }
 
-/* ---------------- HEART FLOAT ---------------- */
+/* Heart float */
 .heart{
   position:absolute;
   font-size:22px;
@@ -98,19 +95,14 @@ body{
 </head>
 <body>
 
-<!-- 💌 Envelope -->
 <div id="envelope">💌</div>
 
-<!-- Background music -->
 <audio id="bgMusic" loop muted>
   <source src="romantic.mp3" type="audio/mpeg">
 </audio>
 
-<!-- Hidden content -->
 <div id="content">
   <div id="typingText"></div>
-
-  <!-- Photo slide -->
   <div id="photoSlide">
     <!-- 30 photos -->
     <img src="pic1.jpg">
@@ -147,14 +139,14 @@ body{
 </div>
 
 <script>
-// ---------------- MUSIC ----------------
+// MUSIC
 const music = document.getElementById("bgMusic");
 document.addEventListener("click", function () {
   music.muted = false;
   music.play();
 }, { once: true });
 
-// ---------------- HEART FLOAT ----------------
+// HEARTS
 function heart(){
  const h=document.createElement("div");
  h.className="heart";
@@ -165,7 +157,7 @@ function heart(){
 }
 setInterval(heart,300);
 
-// ---------------- TYPEWRITER ----------------
+// TYPEWRITER
 const envelope = document.getElementById("envelope");
 const content = document.getElementById("content");
 const typingText = document.getElementById("typingText");
@@ -201,31 +193,28 @@ function typeWriter(i){
     i++;
     setTimeout(()=>typeWriter(i),40);
   } else {
-    startPhotoSlide();
+    showPhotosSequentially();
   }
 }
 
-// ---------------- PHOTO SLIDE ----------------
+// SHOW PHOTOS ONE BY ONE
 const photos = document.querySelectorAll("#photoSlide img");
-let current = 0;
-
-function startPhotoSlide(){
-  photos.forEach(img => {
-    img.style.opacity = 0;
-    img.style.transform = "translateY(50px)";
+function showPhotosSequentially(){
+  photos.forEach(img=>{
+    img.style.opacity=0;
+    img.style.transform="translateY(50px)";
   });
-  photos[current].style.opacity = 1;
-  photos[current].style.transform = "translateY(0)";
-
-  setInterval(() => {
-    photos[current].style.opacity = 0;
-    photos[current].style.transform = "translateY(-50px)";
-    current = (current + 1) % photos.length;
-    photos[current].style.opacity = 1;
-    photos[current].style.transform = "translateY(0)";
-  }, 2500); // 2.5s per photo
+  let index = 0;
+  const interval = setInterval(()=>{
+    if(index >= photos.length){
+      clearInterval(interval);
+      return;
+    }
+    photos[index].style.opacity=1;
+    photos[index].style.transform="translateY(0)";
+    index++;
+  }, 300); // each photo appear after 0.3s
 }
 </script>
-
 </body>
 </html>
