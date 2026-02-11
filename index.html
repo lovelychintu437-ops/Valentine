@@ -95,9 +95,13 @@ button{
 </div>
 
 <script>
+  <script>
+document.addEventListener("DOMContentLoaded", function(){
+
 const no = document.getElementById("no");
 const yes = document.getElementById("yes");
 
+// -------- NO BUTTON --------
 const funnyTexts = [
   "NO 🙈",
   "Are you sure? 🥺",
@@ -109,14 +113,11 @@ const funnyTexts = [
 let hoverCount = 0;
 let speed = 1;
 
-// NO BUTTON LOGIC
 no.addEventListener("mouseover", function(){
 
-  // Change text
   no.innerText = funnyTexts[hoverCount % funnyTexts.length];
   hoverCount++;
 
-  // Increase speed
   speed += 0.5;
 
   const x = Math.random() * (window.innerWidth - no.offsetWidth);
@@ -129,7 +130,7 @@ no.addEventListener("mouseover", function(){
 });
 
 
-// YES BUTTON LOGIC
+// -------- YES BUTTON --------
 let firstClick = false;
 
 yes.addEventListener("click", function(){
@@ -140,7 +141,11 @@ yes.addEventListener("click", function(){
   } else {
     window.location.href = "love.html";
   }
+
 });
+
+
+// -------- HEART ANIMATION --------
 function heart(){
  const h=document.createElement("div");
  h.className="heart";
@@ -150,6 +155,8 @@ function heart(){
  setTimeout(()=>h.remove(),6000);
 }
 setInterval(heart,250);
+
+});
 </script>
 <script>
 const music = document.getElementById("bgMusic");
