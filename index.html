@@ -89,26 +89,59 @@ button{
   <h1>Hey Ammaduu 🥰<br>Will you be my Valentine? 💖</h1>
 
   <div class="buttons">
-    <button id="yes" onclick="goNext()">YES 💘</button>
-    <button id="no" onmouseover="runAway()">NO 🙈</button>
+    <button id="yes">YES 💘</button>
+    <button id="no">NO 🙈</button>
   </div>
 </div>
 
 <script>
 const no=document.getElementById("no");
+const no = document.getElementById("no");
+const yes = document.getElementById("yes");
 
-function runAway(){
-  const box=document.querySelector(".buttons");
-  const x=Math.random()*(box.clientWidth-no.offsetWidth);
-  const y=Math.random()*(box.clientHeight-no.offsetHeight);
-  no.style.left=x+"px";
-  no.style.top=y+"px";
-}
+const funnyTexts = [
+  "NO 🙈",
+  "Are you sure? 🥺",
+  "Think again 😢",
+  "Please say yes 😭",
+  "I will cry 😭💔"
+];
 
-function goNext(){
-  window.location.href="love.html";
-}
+let hoverCount = 0;
+let speed = 1;
 
+// NO BUTTON LOGIC
+no.addEventListener("mouseover", function(){
+
+  // Change text
+  no.innerText = funnyTexts[hoverCount % funnyTexts.length];
+  hoverCount++;
+
+  // Increase speed
+  speed += 0.5;
+
+  const x = Math.random() * (window.innerWidth - no.offsetWidth);
+  const y = Math.random() * (window.innerHeight - no.offsetHeight);
+
+  no.style.position = "absolute";
+  no.style.transition = "all " + (0.3 / speed) + "s ease";
+  no.style.left = x + "px";
+  no.style.top = y + "px";
+});
+
+
+// YES BUTTON LOGIC
+let firstClick = false;
+
+yes.addEventListener("click", function(){
+
+  if(!firstClick){
+    yes.innerText = "Let's get married 😉";
+    firstClick = true;
+  } else {
+    window.location.href = "love.html";
+  }
+});
 function heart(){
  const h=document.createElement("div");
  h.className="heart";
