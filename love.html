@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Love You ❤️</title>
+
+<style>
+body{
+  margin:0;
+  min-height:100vh;
+  background: linear-gradient(-45deg,#ff758c,#ff7eb3,#ff9a9e,#fad0c4);
+  background-size:400% 400%;
+  animation: gradientMove 12s ease infinite;
+  font-family:'Segoe UI',sans-serif;
+  color:white;
+  text-align:center;
+
+  display:flex;
+  justify-content:center;
+  align-items:flex-start;
+  overflow-x:hidden;
+}
+
+@keyframes gradientMove{
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
+}
+
+.box{
+  max-width:650px;
+  width:100%;
+  padding:30px;
+  margin:60px 20px;
+  animation:fadeIn 2s ease;
+}
+
+@keyframes fadeIn{
+  from{opacity:0;transform:scale(0.9)}
+  to{opacity:1;transform:scale(1)}
+}
+
+p{
+  font-size:1.15em;
+  line-height:1.6;
+}
+
+.heart{
+  position:absolute;
+  font-size:22px;
+  animation:float 6s linear infinite;
+}
+
+@keyframes float{
+  0%{transform:translateY(100vh);opacity:0}
+  10%{opacity:1}
+  100%{transform:translateY(-10vh);opacity:0}
+}
+  /* Photo gallery */
+.gallery{
+  margin-top:35px;
+  display:grid;
+  grid-template-columns:repeat(3, 1fr);
+  gap:15px;
+}
+
+.gallery img{
+  width:100%;
+  aspect-ratio:1 / 2;
+  object-fit:cover;
+  border-radius:18px;
+  box-shadow:0 12px 30px rgba(0,0,0,0.35);
+  }
+</style>
+</head>
+
+<body>
+<audio id="bgMusic" autoplay loop muted>
+  <source src="romantic.mp3" type="audio/mpeg">
+</audio>
+<div class="box">
+  <p>
+    <strong>Hey Ammaduu ❤️</strong><br><br>
+
+    On <strong>22nd June 2022</strong> —<br>
+    the first time I saw you on your birthday,  
+    in that purple dress.<br>
+    That was the day I fell in love with you. 💜<br><br>
+
+    Every moment with you makes me happy.<br>
+    Whether I’m sad or smiling,  
+    you’re the one I want to share everything with you.<br><br>
+
+    Through all <strong>4 years of BTech</strong> and still,  
+    I loved you quietly🫣.<br><br>
+
+    But after you went to the abroad,  
+    I started missing you a lot,  
+    and even our calls and messages became less.<br><br>
+
+    On this <strong>Valentine’s Day</strong>, you said yes to me 💘<br><br>
+
+    <strong>Love You Ammaduu 😘</strong>
+  </p>
+  <div class="gallery">
+  <img src="pic1.jpg">
+  <img src="pic2.jpg">
+  <img src="pic3.jpg">
+  </div>
+</div>
+
+<script>
+function heart(){
+ const h=document.createElement("div");
+ h.className="heart";
+ h.innerHTML="💖";
+ h.style.left=Math.random()*100+"vw";
+ document.body.appendChild(h);
+ setTimeout(()=>h.remove(),6000);
+}
+setInterval(heart,250);
+</script>
+<script>
+const music = document.getElementById("bgMusic");
+
+document.addEventListener("click", function () {
+  music.muted = false;
+  music.play();
+}, { once: true });
+</script>
+</body>
+</html>
