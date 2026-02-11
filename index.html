@@ -33,6 +33,7 @@ body{
   box-shadow:0 25px 50px rgba(0,0,0,0.3);
   width:80%;
   max-width:420px;
+  position:relative; /* IMPORTANT */
 }
 
 h1{
@@ -43,7 +44,7 @@ h1{
 .buttons{
   margin-top:30px;
   position:relative;
-  height:60px;
+  height:80px;
 }
 
 button{
@@ -87,7 +88,7 @@ button{
   <source src="romantic.mp3" type="audio/mpeg">
 </audio>
 
-<div class="container">
+<div class="container" id="box">
   <h1>Hey Ammaduu 🥰<br>Will you be my Valentine? 💖</h1>
 
   <div class="buttons">
@@ -97,22 +98,22 @@ button{
 </div>
 
 <script>
-
 document.addEventListener("DOMContentLoaded", function(){
 
 const no = document.getElementById("no");
 const yes = document.getElementById("yes");
 const music = document.getElementById("bgMusic");
+const box = document.getElementById("box");
 
 
-// ---------- MUSIC (one tap only) ----------
+// 🎵 MUSIC (one tap only)
 document.addEventListener("click", function () {
   music.muted = false;
   music.play();
 }, { once: true });
 
 
-// ---------- NO BUTTON ----------
+// 😆 NO BUTTON (runs inside box only)
 const funnyTexts = [
   "NO 🙈",
   "Are you sure? 🥺",
@@ -131,17 +132,18 @@ no.addEventListener("mouseover", function(){
 
   speed += 0.5;
 
-  const x = Math.random() * (window.innerWidth - no.offsetWidth);
-  const y = Math.random() * (window.innerHeight - no.offsetHeight);
+  const boxRect = box.getBoundingClientRect();
 
-  no.style.position = "absolute";
+  const x = Math.random() * (box.clientWidth - no.offsetWidth);
+  const y = Math.random() * (box.clientHeight - no.offsetHeight);
+
   no.style.transition = "all " + (0.3 / speed) + "s ease";
   no.style.left = x + "px";
   no.style.top = y + "px";
 });
 
 
-// ---------- YES BUTTON ----------
+// ❤️ YES BUTTON
 let firstClick = false;
 
 yes.addEventListener("click", function(){
@@ -157,7 +159,7 @@ yes.addEventListener("click", function(){
 });
 
 
-// ---------- HEART ANIMATION ----------
+// 💕 HEART ANIMATION
 function heart(){
  const h=document.createElement("div");
  h.className="heart";
@@ -170,7 +172,6 @@ function heart(){
 setInterval(heart,250);
 
 });
-
 </script>
 
 </body>
