@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <title>Love You ❤️</title>
-
 <style>
 body{
   margin:0;
@@ -58,31 +57,28 @@ body{
 }
 
 /* ---------- GALLERY ---------- */
-.gallery{
+#gallery{
+  display:none; /* STEP 1 — hidden initially */
   margin-top:50px;
   display:grid;
   grid-template-columns:repeat(3, 1fr);
   gap:20px;
 }
 
-.gallery img{
+#gallery img{
   width:100%;
   aspect-ratio:1 / 2;
   object-fit:cover;
   border-radius:22px;
   box-shadow:0 15px 35px rgba(0,0,0,0.35);
-  transition:transform 0.4s ease, box-shadow 0.4s ease;
+  opacity:0;
+  transform:translateY(50px);
+  transition: all 0.6s ease;
 }
 
-.gallery img:hover{
-  transform:scale(1.08);
-  box-shadow:0 25px 45px rgba(0,0,0,0.55);
-}
-
-/* Phone view */
-@media (max-width:768px){
-  .gallery{
-    grid-template-columns:repeat(2, 1fr);
+@media (max-width: 768px){
+  #gallery{
+    grid-template-columns:repeat(2,1fr);
   }
 }
 
@@ -92,7 +88,6 @@ body{
   font-size:22px;
   animation:float 6s linear infinite;
 }
-
 @keyframes float{
   0%{transform:translateY(100vh);opacity:0}
   10%{opacity:1}
@@ -100,100 +95,54 @@ body{
 }
 </style>
 </head>
-
 <body>
 
-<!-- 💌 Envelope -->
-<div id="envelope">💌</div>
-
-<!-- 🎵 Music -->
-<audio id="loveMusic" loop>
+<audio id="bgMusic" loop>
   <source src="romantic.mp3" type="audio/mpeg">
 </audio>
 
-<!-- Hidden Content -->
+<div id="envelope">💌</div>
+
 <div id="content">
+  <div id="typingText"></div>
 
-<div id="typingText"></div>
-
-<!-- 30 Photos -->
-<div class="gallery">
-  <img src="pic1.jpg">
-  <img src="pic2.jpg">
-  <img src="pic3.jpg">
-  <img src="pic4.jpg">
-  <img src="pic5.jpg">
-  <img src="pic6.jpg">
-  <img src="pic7.jpg">
-  <img src="pic8.jpg">
-  <img src="pic9.jpg">
-  <img src="pic10.jpg">
-  <img src="pic11.jpg">
-  <img src="pic12.jpg">
-  <img src="pic13.jpg">
-  <img src="pic14.jpg">
-  <img src="pic15.jpg">
-  <img src="pic16.jpg">
-  <img src="pic17.jpg">
-  <img src="pic18.jpg">
-  <img src="pic19.jpg">
-  <img src="pic20.jpg">
-  <img src="pic21.jpg">
-  <img src="pic22.jpg">
-  <img src="pic23.jpg">
-  <img src="pic24.jpg">
-  <img src="pic25.jpg">
-  <img src="pic26.jpg">
-  <img src="pic27.jpg">
-  <img src="pic28.jpg">
-  <img src="pic29.jpg">
-  <img src="pic30.jpg">
-</div>
-
+  <!-- 30 Photos -->
+  <div id="gallery">
+    <img src="pic1.jpg">
+    <img src="pic2.jpg">
+    <img src="pic3.jpg">
+    <img src="pic4.jpg">
+    <img src="pic5.jpg">
+    <img src="pic6.jpg">
+    <img src="pic7.jpg">
+    <img src="pic8.jpg">
+    <img src="pic9.jpg">
+    <img src="pic10.jpg">
+    <img src="pic11.jpg">
+    <img src="pic12.jpg">
+    <img src="pic13.jpg">
+    <img src="pic14.jpg">
+    <img src="pic15.jpg">
+    <img src="pic16.jpg">
+    <img src="pic17.jpg">
+    <img src="pic18.jpg">
+    <img src="pic19.jpg">
+    <img src="pic20.jpg">
+    <img src="pic21.jpg">
+    <img src="pic22.jpg">
+    <img src="pic23.jpg">
+    <img src="pic24.jpg">
+    <img src="pic25.jpg">
+    <img src="pic26.jpg">
+    <img src="pic27.jpg">
+    <img src="pic28.jpg">
+    <img src="pic29.jpg">
+    <img src="pic30.jpg">
+  </div>
 </div>
 
 <script>
-
-const envelope = document.getElementById("envelope");
-const content = document.getElementById("content");
-const music = document.getElementById("loveMusic");
-const typingText = document.getElementById("typingText");
-
-const message = `Hey Ammaduu ❤️
-
-On 22nd June 2022,
-the first time I saw you in that purple dress 💜
-That was the day I fell in love with you.
-
-Through 4 years of BTech,
-I loved you quietly 🫣
-
-but after you went to the abroad, i started missing a lot,
-our calls and messages became less
-
-On this Valentine’s Day,
-you said yes to me 💘
-
-Love You Ammaduu 😘`;
-
-let index = 0;
-
-function typeWriter(){
-  if(index < message.length){
-    typingText.innerHTML += message.charAt(index);
-    index++;
-    setTimeout(typeWriter, 40);
-  }
-}
-
-envelope.addEventListener("click", function(){
-  envelope.style.display = "none";
-  content.style.display = "block";
-  music.play();
-  typeWriter();
-});
-
-/* Floating hearts */
+// ---------- HEARTS ----------
 function heart(){
  const h=document.createElement("div");
  h.className="heart";
@@ -204,7 +153,61 @@ function heart(){
 }
 setInterval(heart,300);
 
-</script>
+// ---------- ENVELOPE CLICK ----------
+const envelope = document.getElementById("envelope");
+const content = document.getElementById("content");
+const typingText = document.getElementById("typingText");
+const gallery = document.getElementById("gallery");
+const music = document.getElementById("bgMusic");
 
+envelope.addEventListener("click", function(){
+  // Show content
+  content.style.display = "block";
+  envelope.style.display = "none";
+
+  // Play music
+  music.muted = false;
+  music.play();
+
+  // Typewriter text
+  const text = `Hey Ammaduu ❤️
+On 22nd June 2022 — the first time I saw you in that purple dress 💜
+That was the day I fell in love with you.
+
+Through 4 years of BTech and beyond, I loved you quietly 🫣
+
+But after you went to the abroad,I started missing you a lot,
+and even our calls and messages became less
+
+On this Valentine’s Day, you said yes to me 💘
+
+Love You Ammaduu 😘`;
+
+  let index = 0;
+  function typeWriter(){
+    if(index < text.length){
+      typingText.innerHTML += text.charAt(index);
+      index++;
+      setTimeout(typeWriter, 50);
+    } else {
+      // STEP 2 — Show gallery after typing completes
+      showGallery();
+    }
+  }
+  typeWriter();
+});
+
+// ---------- SHOW GALLERY WITH SLIDE + FADE ----------
+function showGallery(){
+  gallery.style.display = "grid";
+  const photos = gallery.querySelectorAll("img");
+  photos.forEach((img, i) => {
+    setTimeout(()=>{
+      img.style.opacity = 1;
+      img.style.transform = "translateY(0)";
+    }, i*150); // staggered effect
+  });
+}
+</script>
 </body>
-</html>
+  </html>
