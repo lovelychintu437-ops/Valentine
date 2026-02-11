@@ -11,12 +11,11 @@ body{
   background-size:400% 400%;
   animation: gradientMove 12s ease infinite;
   font-family:'Segoe UI',sans-serif;
-  color:white;
-  text-align:center;
-  overflow-x:hidden;
   display:flex;
-  flex-direction:column;
-  align-items:center;
+  justify-content:center;
+  align-items:flex-start;
+  overflow-x:hidden;
+  color:white;
 }
 
 @keyframes gradientMove{
@@ -25,10 +24,10 @@ body{
   100%{background-position:0% 50%}
 }
 
-/* Envelope */
+/* 💌 Envelope */
 #envelope{
   position:fixed;
-  top:30px;
+  top:20px;
   left:50%;
   transform:translateX(-50%);
   font-size:65px;
@@ -36,56 +35,65 @@ body{
   animation:pulse 1.5s infinite;
   z-index:1000;
 }
-
 @keyframes pulse{
   0%{transform:translateX(-50%) scale(1);}
   50%{transform:translateX(-50%) scale(1.2);}
   100%{transform:translateX(-50%) scale(1);}
 }
 
-/* Content */
+/* Container for text and carousel */
 #content{
   display:none;
-  max-width:1000px;
-  width:100%;
-  margin-top:120px;
-  padding:20px;
+  width:90%;
+  max-width:800px;
+  margin-top:100px;
+  text-align:center;
 }
 
+/* Typewriter text */
 #typingText{
   font-size:1.2em;
-  line-height:1.8;
-  min-height:220px;
+  line-height:1.7;
   margin-bottom:40px;
+  white-space: pre-wrap; /* keeps line breaks */
+  text-align:center;
 }
 
-/* Photo container */
-#photoSlide{
-  width:240px;
-  max-width:90%;
+/* ---------- CAROUSEL ---------- */
+.carousel{
+  position:relative;
+  width:100%;
+  max-width:500px;
   margin:0 auto;
   overflow:hidden;
+  border-radius:20px;
 }
 
-#photoSlide img{
+.carousel-track{
+  display:flex;
+  transition:transform 0.5s ease;
+}
+
+.carousel img{
   width:100%;
-  aspect-ratio:9/16;
+  aspect-ratio:9/16; /* 9:16 ratio */
   object-fit:cover;
-  border-radius:22px;
-  box-shadow:0 15px 35px rgba(0,0,0,0.35);
-  margin-bottom:20px;
-  opacity:0;
-  transform:translateY(50px);
-  transition: all 1s ease;
+  flex-shrink:0;
+  border-radius:18px;
+  margin:0 5px;
 }
 
-/* Heart float */
+/* Navigation for dragging - optional */
+.carousel:active .carousel-track{
+  cursor:grabbing;
+}
+
+/* Floating hearts */
 .heart{
   position:absolute;
   font-size:22px;
   animation:float 6s linear infinite;
 }
-
 @keyframes float{
   0%{transform:translateY(100vh);opacity:0}
   10%{opacity:1}
@@ -95,58 +103,53 @@ body{
 </head>
 <body>
 
+<!-- 💌 Envelope -->
 <div id="envelope">💌</div>
 
-<audio id="bgMusic" loop muted>
-  <source src="romantic.mp3" type="audio/mpeg">
-</audio>
-
+<!-- Hidden content -->
 <div id="content">
   <div id="typingText"></div>
-  <div id="photoSlide">
-    <!-- 30 photos -->
-    <img src="pic1.jpg">
-    <img src="pic2.jpg">
-    <img src="pic3.jpg">
-    <img src="pic4.jpg">
-    <img src="pic5.jpg">
-    <img src="pic6.jpg">
-    <img src="pic7.jpg">
-    <img src="pic8.jpg">
-    <img src="pic9.jpg">
-    <img src="pic10.jpg">
-    <img src="pic11.jpg">
-    <img src="pic12.jpg">
-    <img src="pic13.jpg">
-    <img src="pic14.jpg">
-    <img src="pic15.jpg">
-    <img src="pic16.jpg">
-    <img src="pic17.jpg">
-    <img src="pic18.jpg">
-    <img src="pic19.jpg">
-    <img src="pic20.jpg">
-    <img src="pic21.jpg">
-    <img src="pic22.jpg">
-    <img src="pic23.jpg">
-    <img src="pic24.jpg">
-    <img src="pic25.jpg">
-    <img src="pic26.jpg">
-    <img src="pic27.jpg">
-    <img src="pic28.jpg">
-    <img src="pic29.jpg">
-    <img src="pic30.jpg">
+  
+  <!-- Carousel -->
+  <div class="carousel">
+    <div class="carousel-track" id="carouselTrack">
+      <!-- Add 30 photos here -->
+      <img src="pic1.jpg">
+      <img src="pic2.jpg">
+      <img src="pic3.jpg">
+      <img src="pic4.jpg">
+      <img src="pic5.jpg">
+      <img src="pic6.jpg">
+      <img src="pic7.jpg">
+      <img src="pic8.jpg">
+      <img src="pic9.jpg">
+      <img src="pic10.jpg">
+      <img src="pic11.jpg">
+      <img src="pic12.jpg">
+      <img src="pic13.jpg">
+      <img src="pic14.jpg">
+      <img src="pic15.jpg">
+      <img src="pic16.jpg">
+      <img src="pic17.jpg">
+      <img src="pic18.jpg">
+      <img src="pic19.jpg">
+      <img src="pic20.jpg">
+      <img src="pic21.jpg">
+      <img src="pic22.jpg">
+      <img src="pic23.jpg">
+      <img src="pic24.jpg">
+      <img src="pic25.jpg">
+      <img src="pic26.jpg">
+      <img src="pic27.jpg">
+      <img src="pic28.jpg">
+      <img src="pic29.jpg">
+      <img src="pic30.jpg">
+    </div>
   </div>
 </div>
 
 <script>
-// MUSIC
-const music = document.getElementById("bgMusic");
-document.addEventListener("click", function () {
-  music.muted = false;
-  music.play();
-}, { once: true });
-
-// HEARTS
+// Floating hearts
 function heart(){
  const h=document.createElement("div");
  h.className="heart";
@@ -157,12 +160,12 @@ function heart(){
 }
 setInterval(heart,300);
 
-// TYPEWRITER
+// 💌 Envelope click
 const envelope = document.getElementById("envelope");
 const content = document.getElementById("content");
 const typingText = document.getElementById("typingText");
 
-const fullText = `Hey Ammaduu ❤️
+const message = `Hey Ammaduu❤️
 
 On 22nd June 2022-
 
@@ -183,38 +186,61 @@ Love You Ammaduu😘`;
 envelope.addEventListener("click", function(){
   envelope.style.display = "none";
   content.style.display = "block";
-  music.play();
-  typeWriter(0);
+
+  // Typewriter effect
+  let i = 0;
+  function typeWriter(){
+    if(i < message.length){
+      typingText.innerHTML += message.charAt(i);
+      i++;
+      setTimeout(typeWriter, 35); // typing speed
+    }
+  }
+  typeWriter();
+
+  // Start carousel auto-slide after typewriter finishes
+  setTimeout(startCarousel, message.length*35 + 500); 
 });
 
-function typeWriter(i){
-  if(i < fullText.length){
-    typingText.innerHTML += fullText.charAt(i);
-    i++;
-    setTimeout(()=>typeWriter(i),40);
-  } else {
-    showPhotosSequentially();
-  }
+// ---------- Carousel ----------
+const track = document.getElementById("carouselTrack");
+let index = 0;
+
+function startCarousel(){
+  setInterval(() => {
+    index++;
+    if(index >= track.children.length) index = 0;
+    track.style.transform = `translateX(-${index*100}%)`;
+  }, 2500); // 2.5 sec per photo
 }
 
-// SHOW PHOTOS ONE BY ONE
-const photos = document.querySelectorAll("#photoSlide img");
-function showPhotosSequentially(){
-  photos.forEach(img=>{
-    img.style.opacity=0;
-    img.style.transform="translateY(50px)";
-  });
-  let index = 0;
-  const interval = setInterval(()=>{
-    if(index >= photos.length){
-      clearInterval(interval);
-      return;
-    }
-    photos[index].style.opacity=1;
-    photos[index].style.transform="translateY(0)";
-    index++;
-  }, 300); // each photo appear after 0.3s
-}
+// Optional: touch drag for mobile
+let startX = 0;
+let isDown = false;
+
+track.addEventListener('mousedown', e => { isDown = true; startX = e.pageX; });
+track.addEventListener('mouseup', e => { isDown=false; });
+track.addEventListener('mouseleave', e=>{isDown=false;});
+track.addEventListener('mousemove', e=>{
+  if(!isDown) return;
+  let dx = e.pageX - startX;
+  track.style.transform = `translateX(${ -index*100 + dx/track.offsetWidth*100 }%)`;
+});
+
+// Mobile touch events
+track.addEventListener('touchstart', e => startX = e.touches[0].clientX);
+track.addEventListener('touchmove', e => {
+  let dx = e.touches[0].clientX - startX;
+  track.style.transform = `translateX(${ -index*100 + dx/track.offsetWidth*100 }%)`;
+});
+track.addEventListener('touchend', e => {
+  let dx = e.changedTouches[0].clientX - startX;
+  if(dx < -50) index++; 
+  if(dx > 50) index--; 
+  if(index < 0) index = 0;
+  if(index >= track.children.length) index = track.children.length-1;
+  track.style.transform = `translateX(-${index*100}%)`;
+});
 </script>
 </body>
 </html>
