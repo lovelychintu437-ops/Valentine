@@ -78,6 +78,11 @@ p{
 <audio id="bgMusic" autoplay loop muted>
   <source src="romantic.mp3" type="audio/mpeg">
 </audio>
+  <div id="startEnvelope">💌</div>
+
+<audio id="loveMusic" loop>
+  <source src="romantic.mp3" type="audio/mpeg">
+</audio>
 <div class="box">
   <p>
     <strong>Hey Ammaduu ❤️</strong><br><br>
@@ -119,6 +124,27 @@ function heart(){
  setTimeout(()=>h.remove(),6000);
 }
 setInterval(heart,250);
+#startEnvelope{
+  position:absolute;
+  top:30px;
+  left:50%;
+  transform:translateX(-50%);
+  font-size:50px;
+  cursor:pointer;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse{
+  0%{transform:translateX(-50%) scale(1);}
+  50%{transform:translateX(-50%) scale(1.2);}
+  100%{transform:translateX(-50%) scale(1);}
+}
+
+#typingText{
+  margin-top:30px;
+  font-size:1.3em;
+  min-height:60px;
+}
 </script>
 <script>
 const music = document.getElementById("bgMusic");
