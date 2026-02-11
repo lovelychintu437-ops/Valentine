@@ -14,9 +14,6 @@ body{
   font-family:'Segoe UI',sans-serif;
   color:white;
   text-align:center;
-  display:flex;
-  justify-content:center;
-  align-items:flex-start;
   overflow-x:hidden;
 }
 
@@ -26,35 +23,50 @@ body{
   100%{background-position:0% 50%}
 }
 
-.box{
+/* 💌 Envelope */
+#envelope{
+  position:fixed;
+  top:30px;
+  left:50%;
+  transform:translateX(-50%);
+  font-size:65px;
+  cursor:pointer;
+  animation:pulse 1.5s infinite;
+  z-index:1000;
+}
+
+@keyframes pulse{
+  0%{transform:translateX(-50%) scale(1);}
+  50%{transform:translateX(-50%) scale(1.2);}
+  100%{transform:translateX(-50%) scale(1);}
+}
+
+/* Hidden content initially */
+#content{
+  display:none;
   max-width:1000px;
-  width:100%;
-  padding:30px;
-  margin:60px 20px;
-  animation:fadeIn 2s ease;
+  margin:140px auto 60px;
+  padding:20px;
 }
 
-@keyframes fadeIn{
-  from{opacity:0;transform:scale(0.95)}
-  to{opacity:1;transform:scale(1)}
-}
-
-p{
+/* Typewriter text */
+#typingText{
   font-size:1.2em;
-  line-height:1.7;
+  line-height:1.8;
+  min-height:200px;
 }
 
 /* ---------- GALLERY ---------- */
 .gallery{
   margin-top:50px;
   display:grid;
-  grid-template-columns:repeat(3, 1fr); /* Laptop default */
+  grid-template-columns:repeat(3, 1fr);
   gap:20px;
 }
 
 .gallery img{
   width:100%;
-  aspect-ratio:1 / 2;   /* 1:2 ratio */
+  aspect-ratio:1 / 2;
   object-fit:cover;
   border-radius:22px;
   box-shadow:0 15px 35px rgba(0,0,0,0.35);
@@ -66,10 +78,10 @@ p{
   box-shadow:0 25px 45px rgba(0,0,0,0.55);
 }
 
-/* ---------- PHONE VIEW ---------- */
-@media (max-width: 768px){
+/* Phone */
+@media (max-width:768px){
   .gallery{
-    grid-template-columns:repeat(2, 1fr);
+    grid-template-columns:repeat(2,1fr);
   }
 }
 
@@ -90,28 +102,19 @@ p{
 
 <body>
 
-<div class="box">
+<!-- 💌 Envelope -->
+<div id="envelope">💌</div>
 
-<p>
-<strong>Hey Ammaduu ❤️</strong><br><br>
+<!-- 🎵 Music -->
+<audio id="loveMusic" loop>
+  <source src="romantic.mp3" type="audio/mpeg">
+</audio>
 
-On <strong>22nd June 2022</strong> —  
-the first time I saw you in that purple dress 💜  
-That was the day I fell in love with you.<br><br>
+<!-- Hidden Content -->
+<div id="content">
 
-Through 4 years of BTech and beyond,  
-I loved you quietly 🫣<br><br>
+<div id="typingText"></div>
 
-Even when you went abroad,  
-I missed you every single day 💌<br><br>
-
-On this Valentine’s Day,  
-you said yes to me 💘<br><br>
-
-<strong>Love You Ammaduu 😘</strong>
-</p>
-
-<!-- 30 Photos -->
 <div class="gallery">
   <img src="pic1.jpg">
   <img src="pic2.jpg">
@@ -148,6 +151,49 @@ you said yes to me 💘<br><br>
 </div>
 
 <script>
+
+const envelope = document.getElementById("envelope");
+const content = document.getElementById("content");
+const music = document.getElementById("loveMusic");
+const typingText = document.getElementById("typingText");
+
+const message = `
+Hey Ammaduu ❤️
+
+On 22nd June 2022 —
+the first time I saw you in that purple dress 💜
+That was the day I fell in love with you.
+
+Through 4 years of BTech and beyond,
+I loved you quietly 🫣
+
+Even when you went abroad,
+I missed you every single day 💌
+
+On this Valentine’s Day,
+you said yes to me 💘
+
+Love You Ammaduu 😘
+`;
+
+function typeWriter(text, i = 0){
+  if(i < text.length){
+    typingText.innerHTML += text.charAt(i);
+    setTimeout(() => typeWriter(text, i + 35), 35);
+  }
+}
+
+envelope.addEventListener("click", function(){
+
+  music.play(); // Start music
+
+  envelope.style.display = "none"; // Hide envelope
+  content.style.display = "block"; // Show content
+
+  typeWriter(message); // Start typing
+});
+
+// Floating hearts
 function heart(){
  const h=document.createElement("div");
  h.className="heart";
@@ -157,6 +203,7 @@ function heart(){
  setTimeout(()=>h.remove(),6000);
 }
 setInterval(heart,300);
+
 </script>
 
 </body>
