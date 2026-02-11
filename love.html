@@ -54,6 +54,7 @@ body{
   font-size:1.2em;
   line-height:1.8;
   min-height:200px;
+  white-space:pre-line;
 }
 
 /* ---------- GALLERY ---------- */
@@ -78,10 +79,10 @@ body{
   box-shadow:0 25px 45px rgba(0,0,0,0.55);
 }
 
-/* Phone */
+/* Phone view */
 @media (max-width:768px){
   .gallery{
-    grid-template-columns:repeat(2,1fr);
+    grid-template-columns:repeat(2, 1fr);
   }
 }
 
@@ -115,6 +116,7 @@ body{
 
 <div id="typingText"></div>
 
+<!-- 30 Photos -->
 <div class="gallery">
   <img src="pic1.jpg">
   <img src="pic2.jpg">
@@ -157,43 +159,41 @@ const content = document.getElementById("content");
 const music = document.getElementById("loveMusic");
 const typingText = document.getElementById("typingText");
 
-const message = `
-Hey Ammaduu ❤️
+const message = `Hey Ammaduu ❤️
 
-On 22nd June 2022 —
+On 22nd June 2022,
 the first time I saw you in that purple dress 💜
 That was the day I fell in love with you.
 
-Through 4 years of BTech and beyond,
+Through 4 years of BTech,
 I loved you quietly 🫣
 
-Even when you went abroad,
-I missed you every single day 💌
+but after you went to the abroad, i started missing a lot,
+our calls and messages became less
 
 On this Valentine’s Day,
 you said yes to me 💘
 
-Love You Ammaduu 😘
-`;
+Love You Ammaduu 😘`;
 
-function typeWriter(text, i = 0){
-  if(i < text.length){
-    typingText.innerHTML += text.charAt(i);
-    setTimeout(() => typeWriter(text, i + 35), 35);
+let index = 0;
+
+function typeWriter(){
+  if(index < message.length){
+    typingText.innerHTML += message.charAt(index);
+    index++;
+    setTimeout(typeWriter, 40);
   }
 }
 
 envelope.addEventListener("click", function(){
-
-  music.play(); // Start music
-
-  envelope.style.display = "none"; // Hide envelope
-  content.style.display = "block"; // Show content
-
-  typeWriter(message); // Start typing
+  envelope.style.display = "none";
+  content.style.display = "block";
+  music.play();
+  typeWriter();
 });
 
-// Floating hearts
+/* Floating hearts */
 function heart(){
  const h=document.createElement("div");
  h.className="heart";
