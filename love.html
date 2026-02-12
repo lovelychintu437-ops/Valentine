@@ -3,129 +3,139 @@
 <head>
 <meta charset="UTF-8">
 <title>Love You ❤️</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <style>
-  /* --- Body & Background --- */
-  body{
-    margin:0;
-    min-height:100vh;
-    background: linear-gradient(-45deg,#ff758c,#ff7eb3,#ff9a9e,#fad0c4);
-    background-size:400% 400%;
-    animation: gradientMove 12s ease infinite;
-    font-family:'Segoe UI',sans-serif;
-    color:white;
-    overflow-x:hidden;
-    display:flex;
-    justify-content:center;
-    align-items:flex-start;
-  }
+body{
+  margin:0;
+  min-height:100vh;
+  background: linear-gradient(-45deg,#ff758c,#ff7eb3,#ff9a9e,#fad0c4);
+  background-size:400% 400%;
+  animation: gradientMove 12s ease infinite;
+  font-family:'Segoe UI',sans-serif;
+  color:white;
+  text-align:center;
+  overflow-x:hidden;
+}
 
-  @keyframes gradientMove{
-    0%{background-position:0% 50%}
-    50%{background-position:100% 50%}
-    100%{background-position:0% 50%}
-  }
+@keyframes gradientMove{
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
+}
 
-  /* --- Floating Hearts --- */
-  .heart{
-    position:absolute;
-    font-size:22px;
-    animation:float 6s linear infinite;
-  }
-  @keyframes float{
-    0%{transform:translateY(100vh);opacity:0}
-    10%{opacity:1}
-    100%{transform:translateY(-10vh);opacity:0}
-  }
+/* 💌 Envelope */
+#envelope{
+  position:fixed;
+  top:30px;
+  left:50%;
+  transform:translateX(-50%);
+  font-size:70px;
+  cursor:pointer;
+  animation:pulse 1.5s infinite;
+  z-index:1000;
+}
 
-  /* --- Envelope --- */
-  #envelope{
-    position:fixed;
-    top:30px;
-    left:50%;
-    transform:translateX(-50%);
-    font-size:65px;
-    cursor:pointer;
-    animation:pulse 1.5s infinite;
-    z-index:1000;
-  }
-  @keyframes pulse{
-    0%{transform:translateX(-50%) scale(1);}
-    50%{transform:translateX(-50%) scale(1.2);}
-    100%{transform:translateX(-50%) scale(1);}
-  }
+@keyframes pulse{
+  0%{transform:translateX(-50%) scale(1);}
+  50%{transform:translateX(-50%) scale(1.2);}
+  100%{transform:translateX(-50%) scale(1);}
+}
 
-  /* --- Typewriter Text --- */
-  #content{
-    display:none;
-    max-width:900px;
-    margin:140px auto 60px;
-    padding:20px;
-    text-align:center;
-    white-space: pre-line; /* Keep line breaks */
-    font-size:1.2em;
-    line-height:1.7;
-  }
+/* Content */
+#content{
+  display:none;
+  max-width:900px;
+  margin:140px auto 40px;
+  padding:20px;
+}
 
-  /* --- Carousel --- */
-  .carousel-container{
-    display:none;
-    margin:30px auto;
-    overflow:hidden;
-    max-width:1000px;
-    position:relative;
-  }
-  .carousel-track{
-    display:flex;
-    gap:15px;
-    transition: transform 0.6s ease;
-  }
+#typingText{
+  font-size:1.2em;
+  line-height:1.9;
+  white-space:pre-line;
+  min-height:300px;
+}
+
+/* Carousel */
+.carousel-container{
+  display:none;
+  width:100%;
+  margin-top:40px;
+  overflow:hidden;
+  opacity:0;
+  transform:translateY(40px);
+  transition:all 1s ease;
+}
+
+.carousel-container.show{
+  display:block;
+  opacity:1;
+  transform:translateY(0);
+}
+
+.carousel-track{
+  display:flex;
+  gap:20px;
+  transition:transform 0.5s ease;
+  justify-content:center;
+}
+
+.carousel-track img{
+  width:250px;
+  aspect-ratio:9/16;
+  object-fit:cover;
+  border-radius:20px;
+  flex-shrink:0;
+  transition:transform 0.4s ease;
+}
+
+.carousel-track img:hover{
+  transform:scale(1.08);
+}
+
+/* Responsive */
+@media(max-width:768px){
   .carousel-track img{
-    flex: 0 0 auto;
-    aspect-ratio:9/16;
-    width: 200px; /* default width, will adjust via JS for responsive */
-    object-fit:cover;
-    border-radius:22px;
-    opacity:0;
-    transform:translateY(30px);
-    transition: opacity 0.8s ease, transform 0.8s ease;
+    width:180px;
   }
-  .carousel-track img.active{
-    opacity:1;
-    transform:translateY(0);
-  }
+}
 
-  /* --- Responsive --- */
-  @media (max-width: 768px){
-    .carousel-track img{
-      width: 150px;
-    }
-  }
-  @media (max-width: 480px){
-    .carousel-track img{
-      width: 120px;
-    }
-  }
+/* Floating hearts */
+.heart{
+  position:fixed;
+  bottom:-20px;
+  font-size:20px;
+  animation:floatUp 6s linear infinite;
+  opacity:0.7;
+}
+
+@keyframes floatUp{
+  from{transform:translateY(0);}
+  to{transform:translateY(-110vh);}
+}
 </style>
 </head>
 
 <body>
 
-<!-- Music -->
-<audio id="bgMusic" loop muted>
-  <source src="romantic.mp3" type="audio/mpeg">
-</audio>
+<div id="envelope" onclick="startLove()">💌</div>
 
-<!-- Floating hearts will be added via JS -->
+<audio id="music" src="romantic.mp3"></audio>
 
-<!-- 💌 Envelope -->
-<div id="envelope">💌</div>
-
-<!-- Typewriter text -->
 <div id="content">
-Hey Ammaduu❤️
-  
+  <div id="typingText"></div>
+
+  <div class="carousel-container" id="carousel">
+    <div class="carousel-track" id="track"></div>
+  </div>
+</div>
+
+<script>
+const text = `Hey Ammaduu❤️
+
 On 22nd June 2022-
-The first time I saw you on your birthday, in that purple dress. 
+the first time I saw you on your birthday, in that purple dress. 
 That was the day I fell in love with you 💜
 
 Every moment with you makes me happy.
@@ -134,156 +144,120 @@ When I'm sad or happy, you're the one I want to share everything
 
 Through all 4 years of BTech and still, I loved you quietly🫣.
 
-But after you went to the abroad, I started missing you a lot,
+But after you went to the abroad, I started missing you a lot, 
 and even our calls and messages became less
 
 On this Valentine's Day, you said yes to me💘
 
-Love You Ammaduu😘
-</div>
+Love You Ammaduu😘`;
 
-<!-- Carousel -->
-<div class="carousel-container">
-  <div class="carousel-track" id="carouselTrack">
-    <!-- 30 photos -->
-    <img src="pic1.jpg">
-    <img src="pic2.jpg">
-    <img src="pic3.jpg">
-    <img src="pic4.jpg">
-    <img src="pic5.jpg">
-    <img src="pic6.jpg">
-    <img src="pic7.jpg">
-    <img src="pic8.jpg">
-    <img src="pic9.jpg">
-    <img src="pic10.jpg">
-    <img src="pic11.jpg">
-    <img src="pic12.jpg">
-    <img src="pic13.jpg">
-    <img src="pic14.jpg">
-    <img src="pic15.jpg">
-    <img src="pic16.jpg">
-    <img src="pic17.jpg">
-    <img src="pic18.jpg">
-    <img src="pic19.jpg">
-    <img src="pic20.jpg">
-    <img src="pic21.jpg">
-    <img src="pic22.jpg">
-    <img src="pic23.jpg">
-    <img src="pic24.jpg">
-    <img src="pic25.jpg">
-    <img src="pic26.jpg">
-    <img src="pic27.jpg">
-    <img src="pic28.jpg">
-    <img src="pic29.jpg">
-    <img src="pic30.jpg">
-  </div>
-</div>
+let i = 0;
 
-<script>
-/* ---------- Floating hearts ---------- */
-function heart(){
-  const h=document.createElement("div");
-  h.className="heart";
-  h.innerHTML="💖";
-  h.style.left=Math.random()*100+"vw";
-  document.body.appendChild(h);
-  setTimeout(()=>h.remove(),6000);
+function startLove(){
+  document.getElementById("content").style.display="block";
+  document.getElementById("envelope").style.display="none";
+  const music = document.getElementById("music");
+  music.play().catch(()=>{});
+  typeWriter();
 }
-setInterval(heart,300);
 
-/* ---------- Music & Typewriter ---------- */
-const envelope = document.getElementById("envelope");
-const content = document.getElementById("content");
-const music = document.getElementById("bgMusic");
+function typeWriter(){
+  if(i < text.length){
+    document.getElementById("typingText").innerHTML += text.charAt(i);
+    i++;
+    setTimeout(typeWriter, 40);
+  } else {
+    showCarousel();
+  }
+}
 
-envelope.addEventListener("click", function(){
-  envelope.style.display="none";
-  
-  // Start music
-  music.muted=false;
-  music.play();
+function showCarousel(){
+  const carousel = document.getElementById("carousel");
+  carousel.classList.add("show");
+  startAutoSlide();
+}
 
-  // Show typewriter
-  content.style.display="block";
-  typeWriter(content, 0, function(){
-    // After text completes, show carousel
-    document.querySelector(".carousel-container").style.display="block";
-    startCarousel();
-  });
+/* Create 30 photos */
+const track = document.getElementById("track");
+for(let j=1;j<=30;j++){
+  const img = document.createElement("img");
+  img.src = j + ".jpg";
+  track.appendChild(img);
+}
+
+let index = 0;
+let autoSlide;
+
+function startAutoSlide(){
+  autoSlide = setInterval(()=>{
+    index++;
+    if(index > 29) index = 0;
+    moveCarousel();
+  },2500);
+}
+
+function moveCarousel(){
+  const imgWidth = track.children[0].offsetWidth + 20;
+  track.style.transform = `translateX(${-index * imgWidth}px)`;
+}
+
+/* Swipe / Drag Support */
+let isDown = false;
+let startX;
+let scrollLeft;
+
+track.addEventListener('mousedown',(e)=>{
+  isDown=true;
+  startX=e.pageX;
 });
 
-/* ---------- Typewriter function ---------- */
-function typeWriter(element, index, callback){
-  const text = element.innerText;
-  element.innerText="";
-  function type(){
-    if(index<text.length){
-      element.innerText += text[index];
-      index++;
-      setTimeout(type,20);
-    } else {
-      if(callback) callback();
-    }
+track.addEventListener('mouseleave',()=>isDown=false);
+track.addEventListener('mouseup',()=>isDown=false);
+
+track.addEventListener('mousemove',(e)=>{
+  if(!isDown) return;
+  const walk=(e.pageX-startX);
+  if(walk>50){
+    index--;
+    if(index<0) index=29;
+    moveCarousel();
+    isDown=false;
   }
-  type();
-}
-
-/* ---------- Carousel ---------- */
-const track = document.getElementById("carouselTrack");
-let position = 0;
-let slideInterval;
-let isDragging=false;
-let startX, currentTranslate, prevTranslate;
-
-function startCarousel(){
-  const slides = Array.from(track.children);
-  slides.forEach((slide,i)=>slide.classList.add("active"));
-
-  let slideWidth = slides[0].offsetWidth + 15; // include gap
-
-  function moveSlide(){
-    position += 1;
-    if(position > slides.length - 1){
-      position = 0;
-    }
-    track.style.transform = `translateX(${-position * slideWidth}px)`;
+  if(walk<-50){
+    index++;
+    if(index>29) index=0;
+    moveCarousel();
+    isDown=false;
   }
+});
 
-  slideInterval = setInterval(moveSlide, 2500);
+/* Touch */
+track.addEventListener('touchstart',(e)=>{
+  startX=e.touches[0].clientX;
+});
 
-  // ---------- Drag support ----------
-  track.addEventListener("mousedown", dragStart);
-  track.addEventListener("touchstart", dragStart);
+track.addEventListener('touchend',(e)=>{
+  let endX=e.changedTouches[0].clientX;
+  if(startX-endX>50){
+    index++;
+  } else if(endX-startX>50){
+    index--;
+  }
+  if(index<0) index=29;
+  if(index>29) index=0;
+  moveCarousel();
+});
 
-  track.addEventListener("mousemove", dragMove);
-  track.addEventListener("touchmove", dragMove);
-
-  track.addEventListener("mouseup", dragEnd);
-  track.addEventListener("mouseleave", dragEnd);
-  track.addEventListener("touchend", dragEnd);
-  track.addEventListener("touchcancel", dragEnd);
-}
-
-/* ---------- Drag functions ---------- */
-function dragStart(e){
-  isDragging=true;
-  clearInterval(slideInterval);
-  startX = e.type.includes("mouse") ? e.pageX : e.touches[0].clientX;
-  currentTranslate = parseFloat(track.style.transform.replace("translateX(","").replace("px)","")) || 0;
-}
-function dragMove(e){
-  if(!isDragging) return;
-  let x = e.type.includes("mouse") ? e.pageX : e.touches[0].clientX;
-  let delta = x - startX;
-  track.style.transform = `translateX(${currentTranslate + delta}px)`;
-}
-function dragEnd(e){
-  if(!isDragging) return;
-  isDragging=false;
-  // Restart carousel auto-slide
-  startCarousel();
-}
-
+/* Floating hearts */
+setInterval(()=>{
+  const heart=document.createElement("div");
+  heart.className="heart";
+  heart.innerHTML="❤️";
+  heart.style.left=Math.random()*100+"vw";
+  document.body.appendChild(heart);
+  setTimeout(()=>heart.remove(),6000);
+},500);
 </script>
+
 </body>
 </html>
