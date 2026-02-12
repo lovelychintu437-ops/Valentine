@@ -3,273 +3,287 @@
 <head>
 <meta charset="UTF-8">
 <title>Love You ❤️</title>
-
 <style>
-body{
-  margin:0;
-  min-height:100vh;
-  font-family:'Segoe UI',sans-serif;
-  background: linear-gradient(-45deg,#ff758c,#ff7eb3,#ff9a9e,#fad0c4);
-  background-size:400% 400%;
-  animation: gradientMove 12s ease infinite;
-  color:white;
-  text-align:center;
-  overflow-x:hidden;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-}
+  /* --- Body & Background --- */
+  body{
+    margin:0;
+    min-height:100vh;
+    background: linear-gradient(-45deg,#ff758c,#ff7eb3,#ff9a9e,#fad0c4);
+    background-size:400% 400%;
+    animation: gradientMove 12s ease infinite;
+    font-family:'Segoe UI',sans-serif;
+    color:white;
+    overflow-x:hidden;
+    display:flex;
+    justify-content:center;
+    align-items:flex-start;
+  }
 
-@keyframes gradientMove{
-  0%{background-position:0% 50%}
-  50%{background-position:100% 50%}
-  100%{background-position:0% 50%}
-}
+  @keyframes gradientMove{
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+  }
 
-/* 💌 Envelope */
-#envelope{
-  position:fixed;
-  top:30px;
-  left:50%;
-  transform:translateX(-50%);
-  font-size:65px;
-  cursor:pointer;
-  animation:pulse 1.5s infinite;
-  z-index:1000;
-}
+  /* --- Floating Hearts --- */
+  .heart{
+    position:absolute;
+    font-size:22px;
+    animation:float 6s linear infinite;
+  }
+  @keyframes float{
+    0%{transform:translateY(100vh);opacity:0}
+    10%{opacity:1}
+    100%{transform:translateY(-10vh);opacity:0}
+  }
 
-@keyframes pulse{
-  0%{transform:translateX(-50%) scale(1);}
-  50%{transform:translateX(-50%) scale(1.2);}
-  100%{transform:translateX(-50%) scale(1);}
-}
+  /* --- Envelope --- */
+  #envelope{
+    position:fixed;
+    top:30px;
+    left:50%;
+    transform:translateX(-50%);
+    font-size:65px;
+    cursor:pointer;
+    animation:pulse 1.5s infinite;
+    z-index:1000;
+  }
+  @keyframes pulse{
+    0%{transform:translateX(-50%) scale(1);}
+    50%{transform:translateX(-50%) scale(1.2);}
+    100%{transform:translateX(-50%) scale(1);}
+  }
 
-/* Hidden content */
-#content{
-  display:none;
-  max-width:800px;
-  margin-top:120px;
-  padding:20px;
-}
+  /* --- Typewriter Text --- */
+  #content{
+    display:none;
+    max-width:900px;
+    margin:140px auto 60px;
+    padding:20px;
+    text-align:center;
+    white-space: pre-line; /* Keep line breaks */
+    font-size:1.2em;
+    line-height:1.7;
+  }
 
-/* Typewriter text */
-#typingText{
-  font-size:1.2em;
-  line-height:1.8;
-  min-height:250px;
-  white-space:pre-line; /* preserve line breaks */
-}
+  /* --- Carousel --- */
+  .carousel-container{
+    display:none;
+    margin:30px auto;
+    overflow:hidden;
+    max-width:1000px;
+    position:relative;
+  }
+  .carousel-track{
+    display:flex;
+    gap:15px;
+    transition: transform 0.6s ease;
+  }
+  .carousel-track img{
+    flex: 0 0 auto;
+    aspect-ratio:9/16;
+    width: 200px; /* default width, will adjust via JS for responsive */
+    object-fit:cover;
+    border-radius:22px;
+    opacity:0;
+    transform:translateY(30px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .carousel-track img.active{
+    opacity:1;
+    transform:translateY(0);
+  }
 
-/* Carousel photos */
-.carousel{
-  margin-top:40px;
-  position:relative;
-  width:90%;
-  max-width:400px;
-  overflow:hidden;
-  border-radius:22px;
-}
-
-.carousel-track{
-  display:flex;
-  transition:transform 0.7s ease;
-}
-
-.carousel-track img{
-  width:100%;
-  aspect-ratio:9/16;
-  object-fit:cover;
-  border-radius:22px;
-  margin-right:15px;
-  flex-shrink:0;
-  opacity:0;
-  transform: translateY(50px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
-}
-
-.carousel-track img.active{
-  opacity:1;
-  transform: translateY(0);
-}
-
-/* Hearts */
-.heart{
-  position:absolute;
-  font-size:22px;
-  animation:float 6s linear infinite;
-}
-@keyframes float{
-  0%{transform:translateY(100vh);opacity:0}
-  10%{opacity:1}
-  100%{transform:translateY(-10vh);opacity:0}
-}
-
-/* Mobile adjustments */
-@media (max-width: 768px){
-  #content{margin-top:80px;}
-}
+  /* --- Responsive --- */
+  @media (max-width: 768px){
+    .carousel-track img{
+      width: 150px;
+    }
+  }
+  @media (max-width: 480px){
+    .carousel-track img{
+      width: 120px;
+    }
+  }
 </style>
 </head>
 
 <body>
 
 <!-- Music -->
-<audio id="loveMusic" loop muted>
+<audio id="bgMusic" loop muted>
   <source src="romantic.mp3" type="audio/mpeg">
 </audio>
 
-<!-- Envelope -->
+<!-- Floating hearts will be added via JS -->
+
+<!-- 💌 Envelope -->
 <div id="envelope">💌</div>
 
-<!-- Hidden content -->
+<!-- Typewriter text -->
 <div id="content">
-  <div id="typingText"></div>
+Hey Ammaduu❤️
+  
+On 22nd June 2022-
+The first time I saw you on your birthday, in that purple dress. 
+That was the day I fell in love with you 💜
 
-  <!-- Carousel -->
-  <div class="carousel">
-    <div class="carousel-track" id="carouselTrack">
-      <!-- 30 images -->
-      <img src="pic1.jpg">
-      <img src="pic2.jpg">
-      <img src="pic3.jpg">
-      <img src="pic4.jpg">
-      <img src="pic5.jpg">
-      <img src="pic6.jpg">
-      <img src="pic7.jpg">
-      <img src="pic8.jpg">
-      <img src="pic9.jpg">
-      <img src="pic10.jpg">
-      <img src="pic11.jpg">
-      <img src="pic12.jpg">
-      <img src="pic13.jpg">
-      <img src="pic14.jpg">
-      <img src="pic15.jpg">
-      <img src="pic16.jpg">
-      <img src="pic17.jpg">
-      <img src="pic18.jpg">
-      <img src="pic19.jpg">
-      <img src="pic20.jpg">
-      <img src="pic21.jpg">
-      <img src="pic22.jpg">
-      <img src="pic23.jpg">
-      <img src="pic24.jpg">
-      <img src="pic25.jpg">
-      <img src="pic26.jpg">
-      <img src="pic27.jpg">
-      <img src="pic28.jpg">
-      <img src="pic29.jpg">
-      <img src="pic30.jpg">
-    </div>
+Every moment with you makes me happy.
+
+When I'm sad or happy, you're the one I want to share everything
+
+Through all 4 years of BTech and still, I loved you quietly🫣.
+
+But after you went to the abroad, I started missing you a lot,
+and even our calls and messages became less
+
+On this Valentine's Day, you said yes to me💘
+
+Love You Ammaduu😘
+</div>
+
+<!-- Carousel -->
+<div class="carousel-container">
+  <div class="carousel-track" id="carouselTrack">
+    <!-- 30 photos -->
+    <img src="pic1.jpg">
+    <img src="pic2.jpg">
+    <img src="pic3.jpg">
+    <img src="pic4.jpg">
+    <img src="pic5.jpg">
+    <img src="pic6.jpg">
+    <img src="pic7.jpg">
+    <img src="pic8.jpg">
+    <img src="pic9.jpg">
+    <img src="pic10.jpg">
+    <img src="pic11.jpg">
+    <img src="pic12.jpg">
+    <img src="pic13.jpg">
+    <img src="pic14.jpg">
+    <img src="pic15.jpg">
+    <img src="pic16.jpg">
+    <img src="pic17.jpg">
+    <img src="pic18.jpg">
+    <img src="pic19.jpg">
+    <img src="pic20.jpg">
+    <img src="pic21.jpg">
+    <img src="pic22.jpg">
+    <img src="pic23.jpg">
+    <img src="pic24.jpg">
+    <img src="pic25.jpg">
+    <img src="pic26.jpg">
+    <img src="pic27.jpg">
+    <img src="pic28.jpg">
+    <img src="pic29.jpg">
+    <img src="pic30.jpg">
   </div>
 </div>
 
 <script>
-// Floating hearts
+/* ---------- Floating hearts ---------- */
 function heart(){
- const h=document.createElement("div");
- h.className="heart";
- h.innerHTML="💖";
- h.style.left=Math.random()*100+"vw";
- document.body.appendChild(h);
- setTimeout(()=>h.remove(),6000);
+  const h=document.createElement("div");
+  h.className="heart";
+  h.innerHTML="💖";
+  h.style.left=Math.random()*100+"vw";
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),6000);
 }
 setInterval(heart,300);
 
-// Envelope click - start typewriter + music
+/* ---------- Music & Typewriter ---------- */
 const envelope = document.getElementById("envelope");
 const content = document.getElementById("content");
-const typingText = document.getElementById("typingText");
-const loveMusic = document.getElementById("loveMusic");
-
-const message = `Hey Ammaduu❤️
-
-On 22nd June 2022-
-
-the first time I saw you on your birthday, in that purple dress. That was the day I fell in love with you 💜
-
-Every moment with you makes me happy.
-
-Whether I'm sad or smiling, you're the one I want to share everything with you
-
-Through all 4 years of BTech and still, I loved you quietly🫣.
-
-But after you went to the abroad, I started missing you a lot, and even our calls and messages became less
-
-On this Valentine's Day, you said yes to me💘
-
-Love You Ammaduu😘`;
+const music = document.getElementById("bgMusic");
 
 envelope.addEventListener("click", function(){
-  envelope.style.display = "none";
-  content.style.display = "block";
-
+  envelope.style.display="none";
+  
   // Start music
-  loveMusic.muted = false;
-  loveMusic.play();
+  music.muted=false;
+  music.play();
 
-  // Typewriter effect
-  let i = 0;
-  function typeWriter(){
-    if(i < message.length){
-      typingText.innerHTML += message.charAt(i);
-      i++;
-      setTimeout(typeWriter, 35);
-    } else {
-      startCarousel(); // show photos after text completes
-    }
-  }
-  typeWriter();
+  // Show typewriter
+  content.style.display="block";
+  typeWriter(content, 0, function(){
+    // After text completes, show carousel
+    document.querySelector(".carousel-container").style.display="block";
+    startCarousel();
+  });
 });
 
-// Carousel effect
-function startCarousel(){
-  const track = document.getElementById("carouselTrack");
-  const slides = track.querySelectorAll("img");
-  let currentIndex = 0;
-
-  // Show first slide
-  slides[0].classList.add("active");
-
-  setInterval(()=>{
-    slides[currentIndex].classList.remove("active");
-    currentIndex = (currentIndex+1)%slides.length;
-    slides[currentIndex].classList.add("active");
-  }, 2500);
-
-  // Touch drag support
-  let startX = 0;
-  let isDragging = false;
-
-  track.addEventListener("touchstart", e=>{
-    startX = e.touches[0].clientX;
-    isDragging = true;
-  });
-  track.addEventListener("touchmove", e=>{
-    if(!isDragging) return;
-    const moveX = e.touches[0].clientX - startX;
-    track.style.transform = `translateX(${ -currentIndex*100 + moveX/track.clientWidth*100 }%)`;
-  });
-  track.addEventListener("touchend", e=>{
-    isDragging = false;
-  });
-
-  // Mouse drag support (desktop)
-  track.addEventListener("mousedown", e=>{
-    startX = e.clientX;
-    isDragging = true;
-  });
-  track.addEventListener("mousemove", e=>{
-    if(!isDragging) return;
-    const moveX = e.clientX - startX;
-    track.style.transform = `translateX(${ -currentIndex*100 + moveX/track.clientWidth*100 }%)`;
-  });
-  track.addEventListener("mouseup", e=>{
-    isDragging = false;
-  });
-  track.addEventListener("mouseleave", e=>{
-    isDragging = false;
-  });
+/* ---------- Typewriter function ---------- */
+function typeWriter(element, index, callback){
+  const text = element.innerText;
+  element.innerText="";
+  function type(){
+    if(index<text.length){
+      element.innerText += text[index];
+      index++;
+      setTimeout(type,20);
+    } else {
+      if(callback) callback();
+    }
+  }
+  type();
 }
+
+/* ---------- Carousel ---------- */
+const track = document.getElementById("carouselTrack");
+let position = 0;
+let slideInterval;
+let isDragging=false;
+let startX, currentTranslate, prevTranslate;
+
+function startCarousel(){
+  const slides = Array.from(track.children);
+  slides.forEach((slide,i)=>slide.classList.add("active"));
+
+  let slideWidth = slides[0].offsetWidth + 15; // include gap
+
+  function moveSlide(){
+    position += 1;
+    if(position > slides.length - 1){
+      position = 0;
+    }
+    track.style.transform = `translateX(${-position * slideWidth}px)`;
+  }
+
+  slideInterval = setInterval(moveSlide, 2500);
+
+  // ---------- Drag support ----------
+  track.addEventListener("mousedown", dragStart);
+  track.addEventListener("touchstart", dragStart);
+
+  track.addEventListener("mousemove", dragMove);
+  track.addEventListener("touchmove", dragMove);
+
+  track.addEventListener("mouseup", dragEnd);
+  track.addEventListener("mouseleave", dragEnd);
+  track.addEventListener("touchend", dragEnd);
+  track.addEventListener("touchcancel", dragEnd);
+}
+
+/* ---------- Drag functions ---------- */
+function dragStart(e){
+  isDragging=true;
+  clearInterval(slideInterval);
+  startX = e.type.includes("mouse") ? e.pageX : e.touches[0].clientX;
+  currentTranslate = parseFloat(track.style.transform.replace("translateX(","").replace("px)","")) || 0;
+}
+function dragMove(e){
+  if(!isDragging) return;
+  let x = e.type.includes("mouse") ? e.pageX : e.touches[0].clientX;
+  let delta = x - startX;
+  track.style.transform = `translateX(${currentTranslate + delta}px)`;
+}
+function dragEnd(e){
+  if(!isDragging) return;
+  isDragging=false;
+  // Restart carousel auto-slide
+  startCarousel();
+}
+
 </script>
 </body>
 </html>
