@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
 <title>Love You ❤️</title>
@@ -11,7 +11,7 @@ body{
   min-height:100vh;
   background: linear-gradient(-45deg,#ff758c,#ff7eb3,#ff9a9e,#fad0c4);
   background-size:400% 400%;
-  animation: gradientMove 12s ease infinite;
+  animation:gradientMove 12s ease infinite;
   font-family:'Segoe UI',sans-serif;
   color:white;
   text-align:center;
@@ -44,7 +44,7 @@ body{
 
 #content{
   display:none;
-  max-width:1000px;
+  max-width:900px;
   margin:140px auto 40px;
   padding:20px;
 }
@@ -56,16 +56,13 @@ body{
   min-height:300px;
 }
 
-/* 3D Carousel */
+/* Center 3D Carousel */
 .carousel-container{
   display:none;
-  width:100%;
   margin-top:50px;
-  overflow:hidden;
   opacity:0;
   transform:translateY(40px);
   transition:all 1s ease;
-  perspective:1200px;
 }
 
 .carousel-container.show{
@@ -75,23 +72,32 @@ body{
 }
 
 .carousel-track{
-  display:flex;
-  gap:30px;
-  transition:transform 0.8s cubic-bezier(0.22,1,0.36,1);
-  transform-style:preserve-3d;
+  position:relative;
+  height:420px;
 }
 
 .carousel-track img{
+  position:absolute;
+  top:0;
+  left:50%;
   width:260px;
   aspect-ratio:9/16;
   object-fit:cover;
   border-radius:25px;
-  flex-shrink:0;
   transition:all 0.8s ease;
-  box-shadow:0 20px 40px rgba(0,0,0,0.3);
+  box-shadow:0 25px 50px rgba(0,0,0,0.4);
 }
 
-/* Floating Hearts */
+@media(max-width:768px){
+  .carousel-track{
+    height:340px;
+  }
+  .carousel-track img{
+    width:200px;
+  }
+}
+
+/* Floating hearts */
 .heart{
   position:fixed;
   bottom:-20px;
@@ -104,12 +110,6 @@ body{
   from{transform:translateY(0);}
   to{transform:translateY(-110vh);}
 }
-
-@media(max-width:768px){
-  .carousel-track img{
-    width:180px;
-  }
-}
 </style>
 </head>
 
@@ -120,11 +120,11 @@ body{
 <audio id="music" src="romantic.mp3" loop></audio>
 
 <div id="content">
-  <div id="typingText"></div>
+<div id="typingText"></div>
 
-  <div class="carousel-container" id="carousel">
-    <div class="carousel-track" id="track"></div>
-  </div>
+<div class="carousel-container" id="carousel">
+  <div class="carousel-track" id="track"></div>
+</div>
 </div>
 
 <script>
@@ -147,14 +147,14 @@ On this Valentine's Day, you said yes to me💘
 
 Love You Ammaduu😘`;
 
-let i = 0;
-let index = 0;
+let i=0;
+let index=0;
 let autoSlide;
 
-const typingElement = document.getElementById("typingText");
-const track = document.getElementById("track");
+const typingElement=document.getElementById("typingText");
+const track=document.getElementById("track");
 
-/* Create 30 Photos */
+/* Load 30 photos */
 for(let j=1;j<=30;j++){
   const img=document.createElement("img");
   img.src="pic"+j+".jpg";
@@ -169,8 +169,8 @@ function startLove(){
 }
 
 function typeWriter(){
-  if(i < text.length){
-    typingElement.innerHTML += text.charAt(i);
+  if(i<text.length){
+    typingElement.innerHTML+=text.charAt(i);
     i++;
     setTimeout(typeWriter,40);
   }else{
@@ -181,7 +181,7 @@ function typeWriter(){
 function showCarousel(){
   const carousel=document.getElementById("carousel");
   carousel.classList.add("show");
-  updateCoverflow();
+  updateCarousel();
   startAutoSlide();
 }
 
@@ -189,38 +189,38 @@ function startAutoSlide(){
   autoSlide=setInterval(()=>{
     index++;
     if(index>29) index=0;
-    updateCoverflow();
+    updateCarousel();
   },3000);
 }
 
-function updateCoverflow(){
-  const images = track.children;
-  const imgWidth = images[0].offsetWidth + 30;
+function updateCarousel(){
+  const images=track.children;
 
-  track.style.transform = `translateX(${-index * imgWidth}px)`;
+  for(let k=0;k<images.length;k++){
+    let offset=k-index;
 
-  for(let k=0; k<images.length; k++){
-    let offset = k - index;
-
-    if(offset === 0){
-      images[k].style.transform = "translateZ(200px) scale(1.1)";
-      images[k].style.opacity = "1";
-      images[k].style.zIndex = "3";
-    } 
-    else if(offset === -1){
-      images[k].style.transform = "rotateY(40deg) scale(0.85)";
-      images[k].style.opacity = "0.7";
-      images[k].style.zIndex = "2";
-    } 
-    else if(offset === 1){
-      images[k].style.transform = "rotateY(-40deg) scale(0.85)";
-      images[k].style.opacity = "0.7";
-      images[k].style.zIndex = "2";
-    } 
+    if(offset===0){
+      images[k].style.transform="translateX(-50%) scale(1.2)";
+      images[k].style.opacity="1";
+      images[k].style.zIndex="5";
+      images[k].style.filter="blur(0px)";
+    }
+    else if(offset===-1){
+      images[k].style.transform="translateX(-180%) scale(0.8)";
+      images[k].style.opacity="0.5";
+      images[k].style.zIndex="3";
+      images[k].style.filter="blur(2px)";
+    }
+    else if(offset===1){
+      images[k].style.transform="translateX(80%) scale(0.8)";
+      images[k].style.opacity="0.5";
+      images[k].style.zIndex="3";
+      images[k].style.filter="blur(2px)";
+    }
     else{
-      images[k].style.transform = "scale(0.6)";
-      images[k].style.opacity = "0.3";
-      images[k].style.zIndex = "1";
+      images[k].style.transform="translateX(-50%) scale(0.6)";
+      images[k].style.opacity="0";
+      images[k].style.zIndex="1";
     }
   }
 }
