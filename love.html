@@ -24,7 +24,7 @@ body{
   100%{background-position:0% 50%}
 }
 
-/* 💌 Envelope */
+/* Envelope */
 #envelope{
   position:fixed;
   top:30px;
@@ -42,7 +42,6 @@ body{
   100%{transform:translateX(-50%) scale(1);}
 }
 
-/* Content */
 #content{
   display:none;
   max-width:900px;
@@ -78,7 +77,6 @@ body{
   display:flex;
   gap:20px;
   transition:transform 0.5s ease;
-  justify-content:center;
 }
 
 .carousel-track img{
@@ -94,14 +92,13 @@ body{
   transform:scale(1.08);
 }
 
-/* Responsive */
 @media(max-width:768px){
   .carousel-track img{
     width:180px;
   }
 }
 
-/* Floating hearts */
+/* Floating Hearts */
 .heart{
   position:fixed;
   bottom:-20px;
@@ -121,7 +118,7 @@ body{
 
 <div id="envelope" onclick="startLove()">💌</div>
 
-<audio id="music" src="romantic.mp3"></audio>
+<audio id="music" src="romantic.mp3" loop></audio>
 
 <div id="content">
   <div id="typingText"></div>
@@ -144,7 +141,7 @@ When I'm sad or happy, you're the one I want to share everything
 
 Through all 4 years of BTech and still, I loved you quietly🫣.
 
-But after you went to the abroad, I started missing you a lot, 
+But after you went abroad, I started missing you a lot, 
 and even our calls and messages became less
 
 On this Valentine's Day, you said yes to me💘
@@ -152,103 +149,105 @@ On this Valentine's Day, you said yes to me💘
 Love You Ammaduu😘`;
 
 let i = 0;
+let index = 0;
+let autoSlide;
+
+const typingElement = document.getElementById("typingText");
+const track = document.getElementById("track");
+
+/* Create 30 photos */
+for(let j=1;j<=30;j++){
+  const img=document.createElement("img");
+  img.src="pic"+j+".jpg";
+  track.appendChild(img);
+}
 
 function startLove(){
   document.getElementById("content").style.display="block";
   document.getElementById("envelope").style.display="none";
-  const music = document.getElementById("music");
-  music.play().catch(()=>{});
+  document.getElementById("music").play().catch(()=>{});
   typeWriter();
 }
 
 function typeWriter(){
   if(i < text.length){
-    document.getElementById("typingText").innerHTML += text.charAt(i);
+    typingElement.innerHTML += text.charAt(i);
     i++;
-    setTimeout(typeWriter, 40);
-  } else {
+    setTimeout(typeWriter,40);
+  }else{
     showCarousel();
   }
 }
 
 function showCarousel(){
-  const carousel = document.getElementById("carousel");
+  const carousel=document.getElementById("carousel");
+
+  index=0;
+  track.style.transform="translateX(0px)";
+
   carousel.classList.add("show");
-  startAutoSlide();
-}
 
-/* Create 30 photos */
-const track = document.getElementById("track");
-for(let j=1;j<=30;j++){
-  const img = document.createElement("img");
-  img.src = "pic" + j + ".jpg";
-  track.appendChild(img);
+  setTimeout(()=>{
+    startAutoSlide();
+  },500);
 }
-
-let index = 0;
-let autoSlide;
 
 function startAutoSlide(){
-  autoSlide = setInterval(()=>{
+  autoSlide=setInterval(()=>{
     index++;
-    if(index > 29) index = 0;
+    if(index>29) index=0;
     moveCarousel();
   },2500);
 }
 
 function moveCarousel(){
-  const imgWidth = track.children[0].offsetWidth + 20;
-  track.style.transform = `translateX(${-index * imgWidth}px)`;
+  const imgWidth=track.children[0].offsetWidth+20;
+  track.style.transform=`translateX(${-index*imgWidth}px)`;
 }
 
-/* Swipe / Drag Support */
-let isDown = false;
-let startX;
-let scrollLeft;
+/* Drag Support */
+let startX=0;
+let isDragging=false;
 
-track.addEventListener('mousedown',(e)=>{
-  isDown=true;
+track.addEventListener("mousedown",(e)=>{
+  isDragging=true;
   startX=e.pageX;
 });
 
-track.addEventListener('mouseleave',()=>isDown=false);
-track.addEventListener('mouseup',()=>isDown=false);
+track.addEventListener("mouseup",()=>isDragging=false);
+track.addEventListener("mouseleave",()=>isDragging=false);
 
-track.addEventListener('mousemove',(e)=>{
-  if(!isDown) return;
-  const walk=(e.pageX-startX);
-  if(walk>50){
-    index--;
-    if(index<0) index=29;
+track.addEventListener("mousemove",(e)=>{
+  if(!isDragging) return;
+  let diff=e.pageX-startX;
+  if(diff>50){
+    index=index<=0?29:index-1;
     moveCarousel();
-    isDown=false;
+    isDragging=false;
   }
-  if(walk<-50){
-    index++;
-    if(index>29) index=0;
+  if(diff<-50){
+    index=index>=29?0:index+1;
     moveCarousel();
-    isDown=false;
+    isDragging=false;
   }
 });
 
 /* Touch */
-track.addEventListener('touchstart',(e)=>{
+track.addEventListener("touchstart",(e)=>{
   startX=e.touches[0].clientX;
 });
 
-track.addEventListener('touchend',(e)=>{
+track.addEventListener("touchend",(e)=>{
   let endX=e.changedTouches[0].clientX;
   if(startX-endX>50){
-    index++;
-  } else if(endX-startX>50){
-    index--;
+    index=index>=29?0:index+1;
+  }else if(endX-startX>50){
+    index=index<=0?29:index-1;
   }
-  if(index<0) index=29;
-  if(index>29) index=0;
   moveCarousel();
 });
 
-/* Floating hearts */
+/* Floating Hearts */
 setInterval(()=>{
   const heart=document.createElement("div");
   heart.className="heart";
