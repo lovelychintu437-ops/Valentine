@@ -3,19 +3,21 @@
 <head>
 <meta charset="UTF-8">
 <title>Love You ❤️</title>
+
 <style>
 body{
   margin:0;
   min-height:100vh;
+  font-family:'Segoe UI',sans-serif;
   background: linear-gradient(-45deg,#ff758c,#ff7eb3,#ff9a9e,#fad0c4);
   background-size:400% 400%;
   animation: gradientMove 12s ease infinite;
-  font-family:'Segoe UI',sans-serif;
-  display:flex;
-  justify-content:center;
-  align-items:flex-start;
-  overflow-x:hidden;
   color:white;
+  text-align:center;
+  overflow-x:hidden;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
 }
 
 @keyframes gradientMove{
@@ -27,7 +29,7 @@ body{
 /* 💌 Envelope */
 #envelope{
   position:fixed;
-  top:20px;
+  top:30px;
   left:50%;
   transform:translateX(-50%);
   font-size:65px;
@@ -41,52 +43,54 @@ body{
   100%{transform:translateX(-50%) scale(1);}
 }
 
-/* Container for text and carousel */
+/* Hidden content */
 #content{
   display:none;
-  width:90%;
   max-width:800px;
-  margin-top:100px;
-  text-align:center;
+  margin-top:120px;
+  padding:20px;
 }
 
-/* Typewriter text */
+/* Typewriter */
 #typingText{
   font-size:1.2em;
-  line-height:1.7;
-  margin-bottom:40px;
-  white-space: pre-wrap; /* keeps line breaks */
-  text-align:center;
+  line-height:1.8;
+  min-height:250px;
 }
 
-/* ---------- CAROUSEL ---------- */
+/* Carousel photos */
 .carousel{
+  margin-top:40px;
   position:relative;
-  width:100%;
-  max-width:500px;
-  margin:0 auto;
+  width:90%;
+  max-width:400px;
   overflow:hidden;
+  border-radius:22px;
 }
 
 .carousel-track{
   display:flex;
-  transition:transform 0.5s ease;
-  opacity:0;
+  transition:transform 0.7s ease;
 }
 
-.carousel img{
+.carousel-track img{
   width:100%;
-  aspect-ratio:9/16; /* 9:16 ratio */
+  aspect-ratio:9/16;
   object-fit:cover;
+  border-radius:22px;
+  margin-right:15px;
   flex-shrink:0;
-  border-radius:18px;
-  margin:0 5px;
-  transform: translateY(50px);
   opacity:0;
-  transition:all 0.6s ease;
+  transform: translateY(50px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
 }
 
-/* Floating hearts */
+.carousel-track img.active{
+  opacity:1;
+  transform: translateY(0);
+}
+
+/* Hearts */
 .heart{
   position:absolute;
   font-size:22px;
@@ -97,21 +101,32 @@ body{
   10%{opacity:1}
   100%{transform:translateY(-10vh);opacity:0}
 }
+
+/* Mobile touch cursor fix */
+@media (max-width: 768px){
+  #content{margin-top:80px;}
+}
 </style>
 </head>
+
 <body>
 
-<!-- 💌 Envelope -->
+<!-- Music -->
+<audio id="loveMusic" loop muted>
+  <source src="romantic.mp3" type="audio/mpeg">
+</audio>
+
+<!-- Envelope -->
 <div id="envelope">💌</div>
 
 <!-- Hidden content -->
 <div id="content">
   <div id="typingText"></div>
-  
+
   <!-- Carousel -->
   <div class="carousel">
     <div class="carousel-track" id="carouselTrack">
-      <!-- 30 photos -->
+      <!-- 30 images -->
       <img src="pic1.jpg">
       <img src="pic2.jpg">
       <img src="pic3.jpg">
@@ -158,25 +173,25 @@ function heart(){
 }
 setInterval(heart,300);
 
-// 💌 Envelope click
+// Envelope click - start typewriter + music
 const envelope = document.getElementById("envelope");
 const content = document.getElementById("content");
 const typingText = document.getElementById("typingText");
+const loveMusic = document.getElementById("loveMusic");
 
 const message = `Hey Ammaduu❤️
 
 On 22nd June 2022-
-The first time I saw you on your birthday, in that purple dress.
-That was the day I fell in love with you 💜
+
+the first time I saw you on your birthday, in that purple dress. That was the day I fell in love with you 💜
 
 Every moment with you makes me happy.
 
-Whether I'm sad or happy, you're the one I want to share everything
+Whether I'm sad or smiling, you're the one I want to share everything with you
 
 Through all 4 years of BTech and still, I loved you quietly🫣.
 
-But after you went to the abroad, I started missing you a lot,
-and even our calls and messages became less
+But after you went to the abroad, I started missing you a lot, and even our calls and messages became less
 
 On this Valentine's Day, you said yes to me💘
 
@@ -186,6 +201,10 @@ envelope.addEventListener("click", function(){
   envelope.style.display = "none";
   content.style.display = "block";
 
+  // Start music
+  loveMusic.muted = false;
+  loveMusic.play();
+
   // Typewriter effect
   let i = 0;
   function typeWriter(){
@@ -194,65 +213,61 @@ envelope.addEventListener("click", function(){
       i++;
       setTimeout(typeWriter, 35);
     } else {
-      showPhotos();
+      startCarousel();
     }
   }
   typeWriter();
 });
 
-// Show photos after typing completes
-function showPhotos(){
+// Carousel effect
+function startCarousel(){
   const track = document.getElementById("carouselTrack");
-  track.style.opacity = "1";
+  const slides = track.querySelectorAll("img");
+  let currentIndex = 0;
 
-  Array.from(track.children).forEach((img, idx) => {
-    setTimeout(() => {
-      img.style.opacity = "1";
-      img.style.transform = "translateY(0)";
-    }, idx * 150); // stagger each photo
+  // Show first slide
+  slides[0].classList.add("active");
+
+  setInterval(()=>{
+    slides[currentIndex].classList.remove("active");
+    currentIndex = (currentIndex+1)%slides.length;
+    slides[currentIndex].classList.add("active");
+  }, 2500);
+
+  // Touch drag support
+  let startX = 0;
+  let isDragging = false;
+
+  track.addEventListener("touchstart", e=>{
+    startX = e.touches[0].clientX;
+    isDragging = true;
+  });
+  track.addEventListener("touchmove", e=>{
+    if(!isDragging) return;
+    const moveX = e.touches[0].clientX - startX;
+    track.style.transform = `translateX(${ -currentIndex*100 + moveX/track.clientWidth*100 }%)`;
+  });
+  track.addEventListener("touchend", e=>{
+    isDragging = false;
   });
 
-  startCarousel();
+  // Mouse drag support (desktop)
+  track.addEventListener("mousedown", e=>{
+    startX = e.clientX;
+    isDragging = true;
+  });
+  track.addEventListener("mousemove", e=>{
+    if(!isDragging) return;
+    const moveX = e.clientX - startX;
+    track.style.transform = `translateX(${ -currentIndex*100 + moveX/track.clientWidth*100 }%)`;
+  });
+  track.addEventListener("mouseup", e=>{
+    isDragging = false;
+  });
+  track.addEventListener("mouseleave", e=>{
+    isDragging = false;
+  });
 }
-
-// ---------- Carousel ----------
-const track = document.getElementById("carouselTrack");
-let index = 0;
-
-function startCarousel(){
-  setInterval(() => {
-    index++;
-    if(index >= track.children.length) index = 0;
-    track.style.transform = `translateX(-${index*100}%)`;
-  }, 2500);
-}
-
-// Optional: touch drag for mobile
-let startX = 0;
-let isDown = false;
-track.addEventListener('mousedown', e => { isDown = true; startX = e.pageX; });
-track.addEventListener('mouseup', e => { isDown=false; });
-track.addEventListener('mouseleave', e=>{isDown=false;});
-track.addEventListener('mousemove', e=>{
-  if(!isDown) return;
-  let dx = e.pageX - startX;
-  track.style.transform = `translateX(${ -index*100 + dx/track.offsetWidth*100 }%)`;
-});
-
-// Mobile touch events
-track.addEventListener('touchstart', e => startX = e.touches[0].clientX);
-track.addEventListener('touchmove', e => {
-  let dx = e.touches[0].clientX - startX;
-  track.style.transform = `translateX(${ -index*100 + dx/track.offsetWidth*100 }%)`;
-});
-track.addEventListener('touchend', e => {
-  let dx = e.changedTouches[0].clientX - startX;
-  if(dx < -50) index++; 
-  if(dx > 50) index--; 
-  if(index < 0) index = 0;
-  if(index >= track.children.length) index = track.children.length-1;
-  track.style.transform = `translateX(-${index*100}%)`;
-});
 </script>
 </body>
-</html>
+  </html>
