@@ -24,24 +24,28 @@ body{
   100%{background-position:0% 50%}
 }
 
-/* Envelope */
+/* Center Heart with Beat */
 #envelope{
   position:fixed;
-  top:30px;
+  top:50%;
   left:50%;
-  transform:translateX(-50%);
-  font-size:70px;
+  transform:translate(-50%, -50%);
+  font-size:80px;
   cursor:pointer;
-  animation:pulse 1.5s infinite;
+  animation:heartbeat 1.5s infinite;
   z-index:1000;
 }
 
-@keyframes pulse{
-  0%{transform:translateX(-50%) scale(1);}
-  50%{transform:translateX(-50%) scale(1.2);}
-  100%{transform:translateX(-50%) scale(1);}
+/* Heartbeat + float effect */
+@keyframes heartbeat{
+  0%   { transform: translate(-50%, -50%) scale(1); }
+  25%  { transform: translate(-50%, -52%) scale(1.2); }
+  50%  { transform: translate(-50%, -50%) scale(1); }
+  75%  { transform: translate(-50%, -48%) scale(1.2); }
+  100% { transform: translate(-50%, -50%) scale(1); }
 }
 
+/* Content */
 #content{
   display:none;
   max-width:900px;
@@ -115,16 +119,17 @@ body{
 
 <body>
 
-<div id="envelope" onclick="startLove()">💌</div>
+<!-- Heart in the center -->
+<div id="envelope" onclick="startLove()">❤️</div>
 
 <audio id="music" src="romantic.mp3" loop></audio>
 
 <div id="content">
-<div id="typingText"></div>
+  <div id="typingText"></div>
 
-<div class="carousel-container" id="carousel">
-  <div class="carousel-track" id="track"></div>
-</div>
+  <div class="carousel-container" id="carousel">
+    <div class="carousel-track" id="track"></div>
+  </div>
 </div>
 
 <script>
@@ -154,13 +159,14 @@ let autoSlide;
 const typingElement=document.getElementById("typingText");
 const track=document.getElementById("track");
 
-/* Load 30 photos */
+/* Load 30 photos dynamically */
 for(let j=1;j<=30;j++){
   const img=document.createElement("img");
   img.src="pic"+j+".jpg";
   track.appendChild(img);
 }
 
+/* Start love animation */
 function startLove(){
   document.getElementById("content").style.display="block";
   document.getElementById("envelope").style.display="none";
@@ -168,6 +174,7 @@ function startLove(){
   typeWriter();
 }
 
+/* Typing effect */
 function typeWriter(){
   if(i<text.length){
     typingElement.innerHTML+=text.charAt(i);
@@ -178,6 +185,7 @@ function typeWriter(){
   }
 }
 
+/* Show carousel after typing */
 function showCarousel(){
   const carousel=document.getElementById("carousel");
   carousel.classList.add("show");
@@ -185,6 +193,7 @@ function showCarousel(){
   startAutoSlide();
 }
 
+/* Auto-slide carousel */
 function startAutoSlide(){
   autoSlide=setInterval(()=>{
     index++;
@@ -193,9 +202,9 @@ function startAutoSlide(){
   },3000);
 }
 
+/* Update 3D carousel positions */
 function updateCarousel(){
   const images=track.children;
-
   for(let k=0;k<images.length;k++){
     let offset=k-index;
 
