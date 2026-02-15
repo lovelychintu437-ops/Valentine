@@ -33,7 +33,7 @@ body{
   box-shadow:0 25px 50px rgba(0,0,0,0.3);
   width:80%;
   max-width:420px;
-  position:relative; /* IMPORTANT */
+  position:relative;
 }
 
 h1{
@@ -106,14 +106,14 @@ const music = document.getElementById("bgMusic");
 const box = document.getElementById("box");
 
 
-// 🎵 MUSIC (one tap only)
+// 🎵 MUSIC
 document.addEventListener("click", function () {
   music.muted = false;
   music.play();
 }, { once: true });
 
 
-// 😆 NO BUTTON (runs inside box only)
+// 😆 NO BUTTON
 const funnyTexts = [
   "please say yes😡",
   "mama ki chepputha😒",
@@ -132,8 +132,6 @@ no.addEventListener("mouseover", function(){
 
   speed += 0.5;
 
-  const boxRect = box.getBoundingClientRect();
-
   const x = Math.random() * (box.clientWidth - no.offsetWidth);
   const y = Math.random() * (box.clientHeight - no.offsetHeight);
 
@@ -143,15 +141,25 @@ no.addEventListener("mouseover", function(){
 });
 
 
-// ❤️ YES BUTTON
-let firstClick = false;
+// ❤️ YES BUTTON (Your Version)
+let clickCount = 0;
 
 yes.addEventListener("click", function(){
 
-  if(!firstClick){
-    yes.innerText = "love U so much😘";
-    firstClick = true;
-  } 
+  clickCount++;
+
+  if(clickCount === 1){
+    yes.innerText = "Yes 😍";
+  }
+  else if(clickCount === 2){
+    yes.innerText = "Nijamaaa 😍";
+  }
+  else if(clickCount === 3){
+    yes.innerText = "Think again 🤧";
+  }
+  else if(clickCount === 4){
+    yes.innerText = "Pakka naa? 🥺";
+  }
   else{
     window.location.href = "love.html";
   }
@@ -159,7 +167,7 @@ yes.addEventListener("click", function(){
 });
 
 
-// 💕 HEART ANIMATION
+// 💕 HEARTS
 function heart(){
  const h=document.createElement("div");
  h.className="heart";
