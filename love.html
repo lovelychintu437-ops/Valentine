@@ -30,19 +30,6 @@ body {
   100% { background-position: 0% 50% }
 }
 
-/* Sparkle Effect */
-.sparkle {
-  position: fixed;
-  font-size: 24px;
-  animation: sparkleAnim 1s ease forwards;
-  pointer-events: none;
-}
-
-@keyframes sparkleAnim {
-  0% { opacity: 1; transform: scale(0.5) translateY(0); }
-  100% { opacity: 0; transform: scale(1.5) translateY(-40px); }
-}
-
 /* Pre Text */
 #preText {
   position: fixed;
@@ -268,26 +255,11 @@ female.addEventListener("click", () => {
   male.style.left = (center - male.offsetWidth) + "px";
   female.style.left = (center - male.offsetWidth + 10) + "px";
 
-  createSparkles(center);
-
   setTimeout(() => {
     engagement.style.display = "none";
     startLove();
   }, 1000);
 });
-
-/* Sparkle Creator */
-function createSparkles(centerX) {
-  for (let s = 0; s < 8; s++) {
-    const spark = document.createElement("div");
-    spark.className = "sparkle";
-    spark.innerHTML = "✨";
-    spark.style.left = (centerX + (Math.random()*60 - 30)) + "px";
-    spark.style.top = (window.innerHeight * 0.55) + "px";
-    document.body.appendChild(spark);
-    setTimeout(() => spark.remove(), 1000);
-  }
-}
 
 function startLove() {
   document.getElementById("content").style.display = "block";
@@ -295,7 +267,6 @@ function startLove() {
   typeWriter();
 }
 
-/* Typing + Rest same as before */
 function typeWriter() {
   if (i < text.length) {
     typing.textContent += text.charAt(i);
