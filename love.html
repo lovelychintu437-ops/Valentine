@@ -30,6 +30,19 @@ body {
   100% { background-position: 0% 50% }
 }
 
+/* Sparkle Effect */
+.sparkle {
+  position: fixed;
+  font-size: 24px;
+  animation: sparkleAnim 1s ease forwards;
+  pointer-events: none;
+}
+
+@keyframes sparkleAnim {
+  0% { opacity: 1; transform: scale(0.5) translateY(0); }
+  100% { opacity: 0; transform: scale(1.5) translateY(-40px); }
+}
+
 /* Pre Text */
 #preText {
   position: fixed;
@@ -90,8 +103,7 @@ body {
   top: 55%;
   transform: translateY(-50%);
   width: 260px;
-  cursor: grab;
-  touch-action: none;
+  cursor: pointer;
 }
 
 /* Content */
@@ -155,40 +167,12 @@ body {
   to { transform: translateY(-110vh); }
 }
 
-/* ✅ MOBILE FIX ONLY */
 @media(max-width:768px) {
-
-  #heart { font-size: 50px; }
-
-  #preText {
-    width: 90%;
-    font-size: 22px;
-    line-height: 1.5;
-  }
-
-  #preText br {
-    display: block;
-    margin-top: 10px;
-  }
-
-  #maleHand, #femaleHand {
-    width: 170px;
-    top: 65%;
-  }
-
-  #maleHand {
-    left: 5%;
-  }
-
-  #femaleHand {
-    left: auto;
-    right: 5%;
-  }
-
+  #maleHand, #femaleHand { width: 180px; }
   .carousel-track { height: 340px; }
   .carousel-track img { width: 200px; }
+  #heart { font-size: 50px; }
 }
-
 </style>
 </head>
 
@@ -197,7 +181,7 @@ body {
 <div id="heart">❤️</div>
 
 <div id="preText">
-Ammadu, will you hold my hand forever? ❤️💍<br>
+Ammadu, will you hold my hand forever? 💍<br>
 Let’s get married.
 </div>
 
@@ -240,6 +224,7 @@ Love You Ammaduu 😘`;
 let i = 0;
 let index = 0;
 let autoSlide;
+let moved = false;
 
 const typing = document.getElementById("typingText");
 const track = document.getElementById("track");
@@ -268,7 +253,117 @@ heart.addEventListener("click", () => {
   }, 3000);
 });
 
-/* Drag + Remaining JS same as before */
+/* Tap to Engage */
+female.addEventListener("click", () => {
+  if (moved) return;
+  moved = true;
+
+  preText.style.opacity = "0";
+
+  const center = window.innerWidth / 2;
+
+  male.style.transition = "1s";
+  female.style.transition = "1s";
+
+  male.style.left = (center - male.offsetWidth) + "px";
+  female.style.left = (center - male.offsetWidth + 10) + "px";
+
+  createSparkles(center);
+
+  setTimeout(() => {
+    engagement.style.display = "none";
+    startLove();
+  }, 1000);
+});
+
+/* Sparkle Creator */
+function createSparkles(centerX) {
+  for (let s = 0; s < 8; s++) {
+    const spark = document.createElement("div");
+    spark.className = "sparkle";
+    spark.innerHTML = "✨";
+    spark.style.left = (centerX + (Math.random()*60 - 30)) + "px";
+    spark.style.top = (window.innerHeight * 0.55) + "px";
+    document.body.appendChild(spark);
+    setTimeout(() => spark.remove(), 1000);
+  }
+}
+
+function startLove() {
+  document.getElementById("content").style.display = "block";
+  window.scrollTo({ top: 0, behavior: "smooth" });
+  typeWriter();
+}
+
+/* Typing + Rest same as before */
+function typeWriter() {
+  if (i < text.length) {
+    typing.textContent += text.charAt(i);
+    i++;
+
+    window.scrollTo({
+      top: document.body.scrollHeight,
+      behavior: "smooth"
+    });
+
+    setTimeout(typeWriter, 40);
+  } else {
+    showCarousel();
+  }
+}
+
+function showCarousel() {
+  const carousel = document.getElementById("carousel");
+  carousel.classList.add("show");
+  updateCarousel();
+
+  setTimeout(() => {
+    window.scrollTo({
+      top: document.body.scrollHeight,
+      behavior: "smooth"
+    });
+  }, 500);
+
+  autoSlide = setInterval(() => {
+    index++;
+    if (index > 29) index = 0;
+    updateCarousel();
+  }, 3000);
+}
+
+function updateCarousel() {
+  const images = track.children;
+
+  for (let k = 0; k < images.length; k++) {
+    let offset = k - index;
+
+    if (offset === 0) {
+      images[k].style.transform = "translateX(-50%) scale(1.2)";
+      images[k].style.opacity = "1";
+      images[k].style.zIndex = "5";
+    } else if (offset === -1) {
+      images[k].style.transform = "translateX(-180%) scale(0.8)";
+      images[k].style.opacity = "0.5";
+    } else if (offset === 1) {
+      images[k].style.transform = "translateX(80%) scale(0.8)";
+      images[k].style.opacity = "0.5";
+    } else {
+      images[k].style.transform = "translateX(-50%) scale(0.6)";
+      images[k].style.opacity = "0";
+    }
+  }
+}
+
+/* Floating Hearts */
+setInterval(() => {
+  const h = document.createElement("div");
+  h.className = "heart";
+  h.innerHTML = "❤️";
+  h.style.left = Math.random() * 100 + "vw";
+  document.body.appendChild(h);
+  setTimeout(() => h.remove(), 6000);
+}, 600);
+
 </script>
 
 </body>
