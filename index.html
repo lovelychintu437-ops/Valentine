@@ -44,7 +44,7 @@ h1{
 .buttons{
   margin-top:30px;
   position:relative;
-  height:80px;
+  height:120px;
 }
 
 button{
@@ -60,12 +60,14 @@ button{
   background:#ff2e63;
   color:white;
   left:20%;
+  top:20px;
 }
 
 #no{
   background:#555;
   color:white;
   left:55%;
+  top:20px;
 }
 
 .heart{
@@ -141,25 +143,32 @@ no.addEventListener("mouseover", function(){
 });
 
 
-// ❤️ YES BUTTON (Your Version)
+// ❤️ YES BUTTON (Run Away Until Last Click)
+
+const yesTexts = [
+  "Yes 😍",
+  "Nijamaaa 😍",
+  "Think again 🤧",
+  "Pakka naa? 🥺"
+];
+
 let clickCount = 0;
 
 yes.addEventListener("click", function(){
 
-  clickCount++;
+  if(clickCount < yesTexts.length){
 
-  if(clickCount === 1){
-    yes.innerText = "Yes 😍";
-  }
-  else if(clickCount === 2){
-    yes.innerText = "Nijamaaa 😍";
-  }
-  else if(clickCount === 3){
-    yes.innerText = "Think again 🤧";
-  }
-  else if(clickCount === 4){
-    yes.innerText = "Pakka naa? 🥺";
-  }
+    yes.innerText = yesTexts[clickCount];
+    clickCount++;
+
+    const x = Math.random() * (box.clientWidth - yes.offsetWidth);
+    const y = Math.random() * (box.clientHeight - yes.offsetHeight);
+
+    yes.style.transition = "0.3s ease";
+    yes.style.left = x + "px";
+    yes.style.top = y + "px";
+
+  } 
   else{
     window.location.href = "love.html";
   }
