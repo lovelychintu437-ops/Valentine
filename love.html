@@ -99,7 +99,7 @@ body {
   display: none;
   max-width: 900px;
   margin: 140px auto 40px;
-  padding: 20px;
+  padding: 20px 20px 120px; /* Bottom space added */
 }
 
 #typingText {
@@ -299,10 +299,17 @@ function startLove() {
   typeWriter();
 }
 
+/* Updated TypeWriter with Auto Scroll */
 function typeWriter() {
   if (i < text.length) {
     typing.textContent += text.charAt(i);
     i++;
+
+    window.scrollTo({
+      top: document.body.scrollHeight,
+      behavior: "smooth"
+    });
+
     setTimeout(typeWriter, 40);
   } else {
     showCarousel();
@@ -313,6 +320,13 @@ function showCarousel() {
   const carousel = document.getElementById("carousel");
   carousel.classList.add("show");
   updateCarousel();
+
+  setTimeout(() => {
+    window.scrollTo({
+      top: document.body.scrollHeight,
+      behavior: "smooth"
+    });
+  }, 500);
 
   autoSlide = setInterval(() => {
     index++;
